@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Products</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+  <a href="../index.html">Dashboard</a>
+  <a href="products.html">Products</a>
+  <a href="orders.html">Orders</a>
+</div>
+
+<div class="main">
+
+  <h1>Products</h1>
+
+  <!-- ADD PRODUCT FORM -->
+  <div>
+
+    <input id="name" placeholder="Product Name">
+    <input id="price" placeholder="Price">
+    <input id="stock" placeholder="Stock">
+
+    <button onclick="createProduct()">Add Product</button>
+
+  </div>
+
+  <hr>
+
+  <!-- PRODUCT LIST -->
+  <div id="product-list"></div>
+
+</div>
+
+<script type="module" src="../admin.js"></script>
+
+</body>
+</html>

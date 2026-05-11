@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+<<<<<<< HEAD
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+=======
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+>>>>>>> 34b87636cbf485b249b4e55dadcbaa1dc14aa06e
+
+  <title>Arsishop Luxury Perfumes</title>
+
+  <link rel="stylesheet" href="style.css">
+
+<<<<<<< HEAD
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+=======
+  <!-- GOOGLE FONT -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- FONT AWESOME -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+>>>>>>> 34b87636cbf485b249b4e55dadcbaa1dc14aa06e
+
+</head>
+
+<body>
+
+<<<<<<< HEAD
+<!-- FREE SHIPPING -->
+<div class="free-shipping-banner">
+  <div class="scrolling-text">
+    🚚 Free Shipping on Orders Over £50
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="sticky-nav">
+
+  <h2 class="logo">Arsishop</h2>
+
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#products">Shop</a>
+    <a href="#footer">Contact</a>
+  </div>
+
+  <div class="account-login">
+    <i class="fas fa-user"></i>
+  </div>
+
+  <div class="cart" onclick="toggleCart()">
+    <i class="fas fa-bag-shopping"></i>
+    <span id="cart-count">0</span>
+  </div>
+
+</nav>
+
+<!-- HERO -->
+<section class="hero-slider" id="home">
+
+  <img src="images/mosofgreen.png" alt="Perfume">
+
+  <div class="slide-text">
+
+    <h1>Smell Like Luxury</h1>
+    <p>Premium Arabic Fragrances</p>
+
+    <button onclick="scrollToProducts()">
+      Shop Now
+    </button>
+
+  </div>
+
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products"></section>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cart-panel">
+
+  <div class="cart-header">
+    <h2>Your Basket</h2>
+    <button class="close-cart" onclick="toggleCart()">✖</button>
+  </div>
+
+  <!-- CART ITEMS -->
+  <ul id="cart-items-panel"></ul>
+
+  <!-- COUPON SYSTEM -->
+  <div class="coupon-box">
+
+    <input id="coupon-input" placeholder="Enter coupon code">
+
+    <button onclick="applyCoupon()">Apply</button>
+
+  </div>
+
+  <div id="coupon-message"></div>
+  <div id="discount-display"></div>
+
+  <!-- AI RECOMMENDATIONS -->
+  <div id="ai-recommend"></div>
+
+  <!-- TOTAL -->
+  <div class="cart-footer">
+
+    <div class="cart-total">
+
+      <span>Total</span>
+
+      <span>
+        £<span id="cart-total-panel">0.00</span>
+      </span>
+
+    </div>
+
+    <button class="checkout-btn" onclick="checkout()">
+      Secure Checkout
+    </button>
+
+  </div>
+
+</div>
+
+<!-- MOBILE CART BUTTON -->
+<div class="mobile-cart-btn" onclick="toggleCart()">
+  <i class="fas fa-bag-shopping"></i>
+  <span id="mobile-cart-count">0</span>
+</div>
+
+<!-- FOOTER -->
+<footer class="luxury-footer" id="footer">
+
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <h2>Arsishop</h2>
+      <p>Luxury Arabic fragrances crafted for elegance and confidence.</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <a href="#home">Home</a>
+      <a href="#products">Shop</a>
+      <a href="#footer">Contact</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <p>support@arsishop.com</p>
+      <p>London, United Kingdom</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+=======
+  <!-- FREE SHIPPING -->
+
+  <div class="free-shipping-banner">
+
+    <div class="scrolling-text">
+      🚚 Free Shipping on Orders Over £50
+    </div>
+
+  </div>
+
+  <!-- NAVBAR -->
+
+  <nav class="sticky-nav">
+
+    <h2 class="logo">Arsishop</h2>
+
+    <div class="nav-links">
+
+      <a href="#home">Home</a>
+
+      <a href="#products">Shop</a>
+
+      <a href="#footer">Contact</a>
+
+    </div>
+
+    <div class="account-login">
+
+      <i class="fas fa-user"></i>
+
+    </div>
+
+    <div class="cart" onclick="toggleCart()">
+
+      <i class="fas fa-bag-shopping"></i>
+
+      <span id="cart-count">0</span>
+
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero-slider" id="home">
+
+    <img
+      src="images/mosofgreen.png"
+      alt="Perfume"
+    >
+
+    <div class="slide-text">
+
+      <h1>Smell Like Luxury</h1>
+
+      <p>
+        Premium Arabic Fragrances
+      </p>
+
+      <button onclick="scrollToProducts()">
+        Shop Now
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- PRODUCTS -->
+
+  <section
+    class="products"
+    id="products"
+  ></section>
+
+  <!-- CART OVERLAY -->
+
+  <div
+    class="cart-overlay"
+    id="cart-overlay"
+    onclick="toggleCart()"
+  ></div>
+
+  <!-- CART PANEL -->
+
+  <div
+    class="cart-panel"
+    id="cart-panel"
+  >
+
+    <div class="cart-header">
+
+      <h2>Your Basket</h2>
+
+      <button
+        class="close-cart"
+        onclick="toggleCart()"
+      >
+        ✖
+      </button>
+
+    </div>
+
+    <ul id="cart-items-panel"></ul>
+
+    <div class="cart-footer">
+
+      <div class="cart-total">
+
+        <span>Total</span>
+
+        <span>
+          £<span id="cart-total-panel">0.00</span>
+        </span>
+
+      </div>
+
+      <button
+        class="checkout-btn"
+        onclick="checkout()"
+      >
+        Secure Checkout
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+
+  <footer
+    class="luxury-footer"
+    id="footer"
+  >
+
+    <div class="footer-container">
+
+      <div class="footer-section">
+
+        <h2>Arsishop</h2>
+
+        <p>
+          Luxury Arabic fragrances crafted for elegance and confidence.
+        </p>
+
+      </div>
+
+      <div class="footer-section">
+
+        <h3>Quick Links</h3>
+
+        <a href="#home">Home</a>
+
+        <a href="#products">Shop</a>
+
+        <a href="#footer">Contact</a>
+
+      </div>
+
+      <div class="footer-section">
+
+        <h3>Contact</h3>
+
+        <p>support@arsishop.com</p>
+
+        <p>London, United Kingdom</p>
+
+      </div>
+
+      <div class="footer-section">
+
+        <h3>Follow Us</h3>
+
+        <div class="social-icons">
+
+          <a href="#">
+            <i class="fab fa-instagram"></i>
+          </a>
+
+          <a href="#">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+
+          <a href="#">
+            <i class="fab fa-tiktok"></i>
+          </a>
+
+        </div>
+
+>>>>>>> 34b87636cbf485b249b4e55dadcbaa1dc14aa06e
+      </div>
+
+    </div>
+
+<<<<<<< HEAD
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Arsishop. All rights reserved.
+  </div>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+=======
+    <div class="footer-bottom">
+      © 2026 Arsishop. All rights reserved.
+    </div>
+
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+
+>>>>>>> 34b87636cbf485b249b4e55dadcbaa1dc14aa06e
+</html>

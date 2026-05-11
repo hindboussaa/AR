@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Orders</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+  <a href="../index.html">Dashboard</a>
+  <a href="products.html">Products</a>
+  <a href="orders.html">Orders</a>
+</div>
+
+<div class="main">
+
+  <h1>Orders</h1>
+
+  <div id="orders"></div>
+
+</div>
+
+<script type="module">
+
+import { getOrders } from "../api.js";
+
+async function loadOrders(){
+
+  const orders = await getOrders();
+
+  const box = document.getElementById("orders");
+
+  orders.forEach(o=>{
+
+    box.innerHTML += `
+      <div class="card">
+
+        <p>Total: £${o.total}</p>
+        <p>Status: ${o.status}</p>
+
+      </div>
+    `;
+  });
+}
+
+loadOrders();
+
+</script>
+
+</body>
+</html>
