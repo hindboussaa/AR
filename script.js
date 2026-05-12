@@ -79,11 +79,31 @@ function decreaseQty(id){
 }
 
 // CART UI
+
+
+
+
+
+
+
+
+
+
+
+
 function updateCart(){
 
-  const cartItems = document.getElementById("cart-items-panel");
-  const cartTotal = document.getElementById("cart-total-panel");
-  const cartCount = document.getElementById("cart-count");
+  const cartItems =
+  document.getElementById("cart-items-panel");
+
+  const cartTotal =
+  document.getElementById("cart-total-panel");
+
+  const cartCount =
+  document.getElementById("cart-count");
+
+  const mobileCount =
+  document.getElementById("mobile-cart-count");
 
   cartItems.innerHTML = "";
 
@@ -99,17 +119,27 @@ function updateCart(){
 
     li.innerHTML = `
       <div class="cart-item">
+
         <img src="${item.img}" alt="${item.name}">
+
         <div>
+
           <h4>${item.name}</h4>
+
           <p>£${item.price.toFixed(2)}</p>
 
           <button onclick="decreaseQty(${item.id})">-</button>
+
           <span>${item.qty}</span>
+
           <button onclick="increaseQty(${item.id})">+</button>
 
-          <button onclick="removeItem(${item.id})">Remove</button>
+          <button onclick="removeItem(${item.id})">
+            Remove
+          </button>
+
         </div>
+
       </div>
     `;
 
@@ -117,8 +147,43 @@ function updateCart(){
   });
 
   cartTotal.innerText = total.toFixed(2);
+
   cartCount.innerText = count;
+
+  if(mobileCount){
+    mobileCount.innerText = count;
+  }
 }
+
+
+
+
+
+
+
+function toggleCart(){
+
+  document
+    .getElementById("cart-panel")
+    .classList
+    .toggle("open");
+
+  document
+    .getElementById("cart-overlay")
+    .classList
+    .toggle("active");
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // SAVE
 function saveCart(){
