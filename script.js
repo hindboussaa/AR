@@ -190,17 +190,45 @@ function saveCart(){
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// CHECKOUT (Stripe link)
-function checkout(){
+
+
+
+
+async function checkout(){
+
+  console.log("Cart before checkout:", cart);
 
   if(cart.length === 0){
     alert("Your basket is empty");
     return;
   }
 
-  window.location.href =
-  "https://buy.stripe.com/YOUR-LINK";
-}
+  saveCart();
 
-// INIT
-window.addEventListener("load", updateCart);
+  try {
+
+    const response = await fetch("http://localhost:3000/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        cart: cart
+      })
+    });
+
+    const data = await response.json();
+
+    console.log("SERVER RESPONSE:", data);
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert(data.error || "Checkout failed");
+    }
+
+  } catch (error) {
+    console.error("Checkout error:", error);
+    alert("Payment failed. Check server.");
+  }
+}
