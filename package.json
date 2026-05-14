@@ -1,15 +1,13 @@
 
 
-
 {
   "name": "ar",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "build": "echo Build complete",
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.21.2"
   }
 }
