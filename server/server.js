@@ -1,12 +1,13 @@
 const express = require("express");
 const Stripe = require("stripe");
 const cors = require("cors");
-
 require("dotenv").config();
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
 const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.use(cors());
 app.use(express.json());
@@ -16,9 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/create-checkout-session", async (req, res) => {
-
   try {
-
     const { cart = [] } = req.body;
 
     const line_items = cart.map(item => ({
@@ -36,14 +35,13 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-      success_url: "http://127.0.0.1:5500/success.html",
-      cancel_url: "http://127.0.0.1:5500/cancel.html",
+success_url: "https://your-domain.up.railway.app/success.html",
+cancel_url: "https://your-domain.up.railway.app/cancel.html",
     });
 
     res.json({ url: session.url });
 
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
@@ -52,6 +50,6 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("🚀 Server running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
