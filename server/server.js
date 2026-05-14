@@ -8,13 +8,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-console.log("Stripe key:", process.env.STRIPE_SECRET_KEY?.slice(0, 10));
-console.log("Type:", typeof process.env.STRIPE_SECRET_KEY);
-console.log("Length:", process.env.STRIPE_SECRET_KEY?.length);
 
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
+const key = process.env.STRIPE_SECRET_KEY;
+
+console.log("Exists:", !!key);
+console.log("Preview:", key?.substring(0, 10));
+console.log("Length:", key?.length);
+
+const stripe = Stripe(key);
 app.use(cors());
 app.use(express.json());
 
