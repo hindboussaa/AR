@@ -1,38 +1,21 @@
-const express = require("express");
-const Stripe = require("stripe");
-const cors = require("cors");
 require("dotenv").config();
 
+const express = require("express");
+const cors = require("cors");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const app = express();
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static("public"));
-
 const PORT = process.env.PORT || 3000;
 
-
-
-
-const key = process.env.STRIPE_SECRET_KEY;
-
-console.log("Exists:", !!key);
-console.log("Preview:", key?.substring(0, 10));
-console.log("Length:", key?.length);
-
-const stripe = Stripe(key);
 app.use(cors());
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Stripe backend is running...");
-});
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
-    const { cart = [] } = req.body;
+    const cart = req.body;
 
-    const line_items = cart.map(item => ({
+    // Create Stripe line items
+    const line_items = cart.map((item) => ({
       price_data: {
         currency: "gbp",
         product_data: {
@@ -43,25 +26,33 @@ app.post("/create-checkout-session", async (req, res) => {
       quantity: item.qty || 1,
     }));
 
+    // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-success_url: "https://ar-production-006f.up.railway.app/success.html",
-cancel_url: "https://ar-production-006f.up.railway.app/cancel.html",
+
+      success_url:
+        "https://ar-production-006f.up.railway.app/success.html",
+
+      cancel_url:
+        "https://ar-production-006f.up.railway.app/cancel.html",
     });
 
-    res.json({ url: session.url });
+    // Send checkout URL to frontend
+    res.json({
+      url: session.url,
+    });
 
   } catch (error) {
-    console.error(error);
+    console.error("Stripe Error:", error);
 
     res.status(500).json({
-      error: error.message
+      error: error.message,
     });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
