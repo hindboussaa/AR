@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,11 +11,17 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Serve frontend
+app.use(express.static(path.join(__dirname, "../")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../index.html"));
+});
+
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const cart = req.body;
 
-    // Create Stripe line items
     const line_items = cart.map((item) => ({
       price_data: {
         currency: "gbp",
@@ -26,26 +33,20 @@ app.post("/create-checkout-session", async (req, res) => {
       quantity: item.qty || 1,
     }));
 
-    // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-
       success_url:
         "https://ar-production-006f.up.railway.app/success.html",
-
       cancel_url:
         "https://ar-production-006f.up.railway.app/cancel.html",
     });
 
-    // Send checkout URL to frontend
-    res.json({
-      url: session.url,
-    });
+    res.json({ url: session.url });
 
   } catch (error) {
-    console.error("Stripe Error:", error);
+    console.error(error);
 
     res.status(500).json({
       error: error.message,
