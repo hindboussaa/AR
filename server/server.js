@@ -5,8 +5,11 @@ require("dotenv").config();
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+app.use(cors());
+app.use(express.json());
+app.use(express.static("public"));
 
+const PORT = process.env.PORT || 3000;
 
 
 
@@ -44,8 +47,8 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-success_url: "https://your-domain.up.railway.app/success.html",
-cancel_url: "https://your-domain.up.railway.app/cancel.html",
+success_url: "https://ar-production-006f.up.railway.app/success.html",
+cancel_url: "https://ar-production-006f.up.railway.app/cancel.html",
     });
 
     res.json({ url: session.url });
