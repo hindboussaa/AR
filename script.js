@@ -207,15 +207,17 @@ async function checkout(){
 
   try {
 
-    const response = await fetch("https://ar-production-006f.up.railway.app/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        cart: cart
-      })
-    });
+    const response = await fetch(
+      "https://ar-production-006f.up.railway.app/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(cart)
+      }
+    );
 
     const data = await response.json();
 
