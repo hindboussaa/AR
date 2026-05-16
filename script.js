@@ -1,4 +1,3 @@
-
 // PRODUCTS
 const products = [
   { id:1, name:"Yara Pink 50ml", price:15.99, img:"images/yara1.png" },
@@ -16,81 +15,104 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const productsContainer = document.getElementById("products");
 
 products.forEach(product => {
+
   const div = document.createElement("div");
 
   div.className = "product";
 
   div.innerHTML = `
+  
     <img src="${product.img}" alt="${product.name}">
+
     <div class="product-content">
+
       <h3>${product.name}</h3>
+
       <p>£${product.price.toFixed(2)}</p>
+
       <button onclick="addToCart(${product.id})">
         Add To Cart
       </button>
+
     </div>
   `;
 
   productsContainer.appendChild(div);
+
 });
 
 // ADD TO CART
 function addToCart(id){
-  const product = products.find(p => p.id === id);
-  const existing = cart.find(item => item.id === id);
+
+  const product =
+  products.find(p => p.id === id);
+
+  const existing =
+  cart.find(item => item.id === id);
 
   if(existing){
+
     existing.qty++;
+
   } else {
-    cart.push({...product, qty:1});
+
+    cart.push({
+      ...product,
+      qty:1
+    });
+
   }
 
   saveCart();
   updateCart();
 }
 
-// REMOVE
+// REMOVE ITEM
 function removeItem(id){
-  cart = cart.filter(p => p.id !== id);
+
+  cart =
+  cart.filter(p => p.id !== id);
+
   saveCart();
   updateCart();
 }
 
-// QTY
+// INCREASE QTY
 function increaseQty(id){
-  const item = cart.find(p => p.id === id);
-  if(item) item.qty++;
+
+  const item =
+  cart.find(p => p.id === id);
+
+  if(item){
+    item.qty++;
+  }
+
   saveCart();
   updateCart();
 }
 
+// DECREASE QTY
 function decreaseQty(id){
-  const item = cart.find(p => p.id === id);
+
+  const item =
+  cart.find(p => p.id === id);
+
   if(!item) return;
 
   item.qty--;
 
   if(item.qty <= 0){
-    cart = cart.filter(p => p.id !== id);
+
+    cart =
+    cart.filter(p => p.id !== id);
+
   }
 
   saveCart();
   updateCart();
 }
 
-// CART UI
-
-
-
-
-
-
-
-
-
-
-
-
+// UPDATE CART UI
 function updateCart(){
 
   const cartItems =
@@ -118,6 +140,7 @@ function updateCart(){
     const li = document.createElement("li");
 
     li.innerHTML = `
+
       <div class="cart-item">
 
         <img src="${item.img}" alt="${item.name}">
@@ -128,11 +151,15 @@ function updateCart(){
 
           <p>£${item.price.toFixed(2)}</p>
 
-          <button onclick="decreaseQty(${item.id})">-</button>
+          <button onclick="decreaseQty(${item.id})">
+            -
+          </button>
 
           <span>${item.qty}</span>
 
-          <button onclick="increaseQty(${item.id})">+</button>
+          <button onclick="increaseQty(${item.id})">
+            +
+          </button>
 
           <button onclick="removeItem(${item.id})">
             Remove
@@ -141,26 +168,25 @@ function updateCart(){
         </div>
 
       </div>
+
     `;
 
     cartItems.appendChild(li);
+
   });
 
-  cartTotal.innerText = total.toFixed(2);
+  cartTotal.innerText =
+  total.toFixed(2);
 
-  cartCount.innerText = count;
+  cartCount.innerText =
+  count;
 
   if(mobileCount){
     mobileCount.innerText = count;
   }
 }
 
-
-
-
-
-
-
+// TOGGLE CART
 function toggleCart(){
 
   document
@@ -174,31 +200,25 @@ function toggleCart(){
     .toggle("active");
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// SAVE
+// SAVE CART
 function saveCart(){
-  localStorage.setItem("cart", JSON.stringify(cart));
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
 }
 
-
-
-
-
+// CHECKOUT
 async function checkout(){
 
-  console.log("Cart before checkout:", cart);
+  console.log(
+    "Cart before checkout:",
+    cart
+  );
 
   if(cart.length === 0){
+
     alert("Your basket is empty");
     return;
   }
@@ -211,6 +231,7 @@ async function checkout(){
       "https://ar-production-006f.up.railway.app/create-checkout-session",
       {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json"
         },
@@ -223,14 +244,69 @@ async function checkout(){
 
     console.log("SERVER RESPONSE:", data);
 
-    if (data.url) {
+    if(data.url){
+
+      // GET OLD ORDERS
+      let orders =
+      JSON.parse(
+        localStorage.getItem("orders")
+      ) || [];
+
+      // SAVE NEW ORDERS
+      cart.forEach(item => {
+
+        orders.push({
+
+          id: item.id,
+
+          name: item.name,
+
+          price: item.price,
+
+          image: item.img,
+
+          quantity: item.qty
+
+        });
+
+      });
+
+      // SAVE TO LOCAL STORAGE
+      localStorage.setItem(
+        "orders",
+        JSON.stringify(orders)
+      );
+
+      // CLEAR CART
+      cart = [];
+
+      saveCart();
+
+      updateCart();
+
+      // REDIRECT TO STRIPE
       window.location.href = data.url;
+
     } else {
-      alert(data.error || "Checkout failed");
+
+      alert(
+        data.error || "Checkout failed"
+      );
+
     }
 
-  } catch (error) {
-    console.error("Checkout error:", error);
-    alert("Payment failed. Check server.");
+  } catch(error){
+
+    console.error(
+      "Checkout error:",
+      error
+    );
+
+    alert(
+      "Payment failed. Check server."
+    );
   }
 }
+
+// LOAD CART ON PAGE LOAD
+updateCart();
