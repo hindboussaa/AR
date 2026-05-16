@@ -1,16 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payment Successful</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <h1>Thank You!</h1>
-  <h1>SUCCESS PAGE WORKS</h1>
-  <p>Your payment was successful.</p>
+  <div class="background-glow success-glow"></div>
 
-  <a href="/">Return Home</a>
+  <div class="success-card">
+
+    <div class="success-icon">
+      ✓
+    </div>
+
+    <span class="status-badge success-badge">
+      Payment Successful
+    </span>
+
+    <h1>Thank You for Your Purchase!</h1>
+
+    <p class="description">
+      Your transaction has been completed successfully.
+      A confirmation email and receipt have been sent to your email address.
+    </p>
+
+    <div class="action-buttons">
+
+      <a href="/" class="primary-btn success-btn">
+        Return Home
+      </a>
+
+      <a href="/orders" class="secondary-btn">
+        View Orders
+      </a>
+
+    </div>
+
+    <div class="footer-note">
+      Secure payment processed successfully.
+    </div>
+
+  </div>
 
 </body>
 </html>

@@ -1,16 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payment Cancelled</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <h1>Payment Cancelled</h1>
-  <h1>CANCEL PAGE WORKS</h1>
-  <p>Your order was not completed.</p>
+  <div class="background-glow"></div>
 
-  <a href="/">Return Home</a>
+  <div class="cancel-card">
+
+    <div class="cancel-icon">
+      ✕
+    </div>
+
+    <span class="status-badge">Transaction Cancelled</span>
+
+    <h1>Payment Could Not Be Completed</h1>
+
+    <p class="description">
+      Your payment process was cancelled before completion.
+      No charges have been made to your account.
+      You may safely return and try again whenever you're ready.
+    </p>
+
+    <div class="action-buttons">
+      <a href="/" class="primary-btn">
+        Return Home
+      </a>
+
+      <a href="/checkout" class="secondary-btn">
+        Try Again
+      </a>
+    </div>
+
+    <div class="footer-note">
+      Need help? Contact our support team for assistance.
+    </div>
+
+  </div>
 
 </body>
 </html>
