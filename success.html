@@ -181,9 +181,56 @@
       .secondary-btn {
         width: 100%;
       }
+
+
+
+      .buttons{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  margin-top:30px;
+}
+
+.home-btn,
+.orders-btn{
+  padding:14px 32px;
+  border:none;
+  border-radius:14px;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.home-btn{
+  background:#2563eb;
+  color:white;
+}
+
+.home-btn:hover{
+  background:#1d4ed8;
+}
+
+.orders-btn{
+  background:white;
+  border:1px solid #d1d5db;
+  color:#111827;
+}
+
+.orders-btn:hover{
+  background:#f3f4f6;
+}
     }
   </style>
 </head>
+
+
+
+
+
+
+
+
 
 <body>
 
@@ -202,10 +249,21 @@
       A confirmation email and receipt have been sent to your email address.
     </p>
 
-    <div class="action-buttons">
-      <a href="/" class="primary-btn">Return Home</a>
-      <a href="/orders" class="secondary-btn">View Orders</a>
-    </div>
+
+
+    <div class="buttons">
+
+  <button class="home-btn"
+    onclick="window.location.href='index.html'">
+    Return Home
+  </button>
+
+  <button class="orders-btn"
+    onclick="window.location.href='orders.html'">
+    View Orders
+  </button>
+
+</div>
 
     <div class="footer-note">
       Secure payment processed successfully.
