@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payment Successful</title>
 
-  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -13,22 +12,188 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: 20px;
+      position: relative;
+    }
+
+    .background-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(59, 130, 246, 0.20);
+      border-radius: 50%;
+      filter: blur(120px);
+      animation: pulse 6s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 0.75; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
+
+    .success-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 540px;
+      padding: 50px 40px;
+      text-align: center;
+
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+
+      box-shadow:
+        0 20px 60px rgba(59, 130, 246, 0.15),
+        0 8px 24px rgba(59, 130, 246, 0.10);
+
+      animation: fadeUp 0.7s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-icon {
+      width: 95px;
+      height: 95px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+
+      background: linear-gradient(135deg, #dbeafe, #93c5fd);
+      color: #1d4ed8;
+
+      font-size: 42px;
+      font-weight: 700;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow:
+        0 12px 30px rgba(59, 130, 246, 0.25),
+        inset 0 2px 8px rgba(255, 255, 255, 0.6);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: rgba(219, 234, 254, 0.95);
+      color: #1d4ed8;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      border: 1px solid rgba(147, 197, 253, 0.4);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 18px;
+    }
+
+    .description {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #475569;
+      margin-bottom: 36px;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn {
+      text-decoration: none;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 28px rgba(59, 130, 246, 0.35);
+    }
+
+    .secondary-btn {
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.92);
+      color: #1e293b;
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      transition: all 0.3s ease;
+    }
+
+    .secondary-btn:hover {
+      background: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      font-size: 0.92rem;
+      color: #64748b;
+    }
+
+    @media (max-width: 600px) {
+      .success-card {
+        padding: 40px 24px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <div class="background-glow success-glow"></div>
+  <div class="background-glow"></div>
 
   <div class="success-card">
 
-    <div class="success-icon">
-      ✓
-    </div>
+    <div class="success-icon">✓</div>
 
-    <span class="status-badge success-badge">
-      Payment Successful
-    </span>
+    <span class="status-badge">Payment Successful</span>
 
     <h1>Thank You for Your Purchase!</h1>
 
@@ -38,15 +203,8 @@
     </p>
 
     <div class="action-buttons">
-
-      <a href="/" class="primary-btn success-btn">
-        Return Home
-      </a>
-
-      <a href="/orders" class="secondary-btn">
-        View Orders
-      </a>
-
+      <a href="/" class="primary-btn">Return Home</a>
+      <a href="/orders" class="secondary-btn">View Orders</a>
     </div>
 
     <div class="footer-note">
