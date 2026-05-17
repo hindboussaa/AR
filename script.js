@@ -310,3 +310,20 @@ async function checkout(){
 
 // LOAD CART ON PAGE LOAD
 updateCart();
+
+
+
+
+
+
+
+
+function scrollToProducts(){
+
+  document
+    .getElementById("products")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
