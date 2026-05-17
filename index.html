@@ -9,16 +9,16 @@
     content="width=device-width, initial-scale=1.0">
 
   <title>
-    Arsishop | Luxury Arabic Perfumes
+    Arsishop | Luxury Arabic Fragrances
   </title>
 
   <meta name="description"
-    content="Discover premium Arabic fragrances and luxury perfumes at Arsishop.">
+    content="Discover luxury Arabic perfumes, oud fragrances and premium scents at Arsishop.">
 
   <link rel="stylesheet" href="style.css">
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet"
@@ -28,12 +28,14 @@
 
 <body>
 
-<!-- FREE SHIPPING -->
+<!-- TOP BAR -->
 
 <div class="free-shipping-banner">
 
   <div class="scrolling-text">
-    🚚 Free UK Shipping Over £50 • Premium Arabic Fragrances • Secure Payments
+
+    🚚 Free UK Shipping Over £50 • Luxury Arabic Fragrances • Secure Stripe Payments
+
   </div>
 
 </div>
@@ -42,15 +44,19 @@
 
 <nav class="sticky-nav">
 
-  <h2 class="logo">Arsishop</h2>
+  <div class="logo">
+    Arsishop
+  </div>
 
   <div class="nav-links">
 
     <a href="#home">Home</a>
 
+    <a href="#collections">Collections</a>
+
     <a href="#products">Shop</a>
 
-    <a href="#about">About</a>
+    <a href="#story">Our Story</a>
 
     <a href="#reviews">Reviews</a>
 
@@ -58,15 +64,20 @@
 
   </div>
 
-  <div class="account-login">
-    <i class="fas fa-user"></i>
-  </div>
+  <div class="nav-icons">
 
-  <div class="cart" onclick="toggleCart()">
+    <div class="account-login">
+      <i class="fas fa-user"></i>
+    </div>
 
-    <i class="fas fa-bag-shopping"></i>
+    <div class="cart"
+      onclick="toggleCart()">
 
-    <span id="cart-count">0</span>
+      <i class="fas fa-bag-shopping"></i>
+
+      <span id="cart-count">0</span>
+
+    </div>
 
   </div>
 
@@ -74,78 +85,154 @@
 
 <!-- HERO -->
 
-<section class="hero-slider" id="home">
+<section class="hero-slider"
+  id="home">
 
   <img src="images/mosofgreen.png"
-    alt="Luxury Arabic Perfume">
+    alt="Luxury Perfume">
+
+  <div class="hero-overlay"></div>
 
   <div class="slide-text">
 
+    <span class="hero-tag">
+      PREMIUM ARABIC PERFUMES
+    </span>
+
     <h1>
-      Luxury Arabic Fragrances
+      Luxury Fragrances Crafted For Elegance
     </h1>
 
     <p>
-      Premium oud, musk and floral scents crafted for elegance and confidence.
+
+      Explore premium oud, musk and floral fragrances
+      inspired by Arabic perfumery traditions.
+
     </p>
 
-    <button onclick="scrollToProducts()">
-      Shop Collection
-    </button>
+    <div class="hero-buttons">
+
+      <button onclick="scrollToProducts()">
+        Shop Collection
+      </button>
+
+      <button class="secondary-btn">
+        Explore Best Sellers
+      </button>
+
+    </div>
 
   </div>
 
 </section>
 
-<!-- TRUST BADGES -->
+<!-- TRUST BAR -->
 
-<section class="trust-section">
+<section class="trust-bar">
 
-  <div class="trust-box">
+  <div class="trust-item">
 
     <i class="fas fa-truck"></i>
 
-    <h3>Fast UK Shipping</h3>
-
-    <p>
-      Quick and secure delivery nationwide.
-    </p>
+    <span>Fast UK Delivery</span>
 
   </div>
 
-  <div class="trust-box">
+  <div class="trust-item">
 
     <i class="fas fa-lock"></i>
 
-    <h3>Secure Payments</h3>
-
-    <p>
-      Protected checkout with Stripe security.
-    </p>
+    <span>Secure Payments</span>
 
   </div>
 
-  <div class="trust-box">
+  <div class="trust-item">
 
     <i class="fas fa-star"></i>
 
-    <h3>Premium Quality</h3>
-
-    <p>
-      Authentic luxury fragrances.
-    </p>
+    <span>Premium Quality</span>
 
   </div>
 
-  <div class="trust-box">
+  <div class="trust-item">
 
     <i class="fas fa-headset"></i>
 
-    <h3>24/7 Support</h3>
+    <span>24/7 Support</span>
 
-    <p>
-      Friendly customer support anytime.
-    </p>
+  </div>
+
+</section>
+
+<!-- COLLECTIONS -->
+
+<section class="collections-section"
+  id="collections">
+
+  <div class="section-header">
+
+    <span class="section-tag">
+      SHOP BY COLLECTION
+    </span>
+
+    <h2>
+      Discover Luxury Collections
+    </h2>
+
+  </div>
+
+  <div class="collections-grid">
+
+    <div class="collection-card">
+
+      <img src="images/yara1.png"
+        alt="Sweet Collection">
+
+      <div class="collection-overlay">
+
+        <h3>Sweet Collection</h3>
+
+        <button>
+          Explore
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="collection-card">
+
+      <img src="images/mosofgreen.png"
+        alt="Oud Collection">
+
+      <div class="collection-overlay">
+
+        <h3>Oud Collection</h3>
+
+        <button>
+          Explore
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="collection-card">
+
+      <img src="images/mayar.png"
+        alt="Floral Collection">
+
+      <div class="collection-overlay">
+
+        <h3>Floral Collection</h3>
+
+        <button>
+          Explore
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
 
@@ -153,42 +240,58 @@
 
 <!-- ABOUT -->
 
-<section class="about-section" id="about">
+<section class="brand-story"
+  id="story">
 
-  <div class="about-content">
+  <div class="story-content">
 
-    <div class="about-text">
+    <div class="story-image">
+
+      <img src="images/dirham.png"
+        alt="Luxury Perfume">
+
+    </div>
+
+    <div class="story-text">
 
       <span class="section-tag">
-        ABOUT ARSISHOP
+        OUR STORY
       </span>
 
       <h2>
-        Luxury Inspired By Arabic Perfumery
+        Inspired By Luxury Arabic Perfumery
       </h2>
 
       <p>
 
-        Arsishop offers premium Arabic fragrances
-        designed for people who appreciate elegance,
-        luxury and long-lasting scents.
+        Arsishop was created to bring premium Arabic
+        fragrances to fragrance lovers across the UK.
 
       </p>
 
       <p>
 
-        From oud and amber to floral and sweet notes,
-        every perfume is carefully selected to deliver
-        a premium fragrance experience.
+        We focus on elegant scents, luxury presentation
+        and long-lasting perfumes inspired by traditional
+        Arabic perfumery craftsmanship.
 
       </p>
 
-    </div>
+      <div class="story-features">
 
-    <div class="about-image">
+        <div>
+          ✔ Authentic Fragrances
+        </div>
 
-      <img src="images/yara1.png"
-        alt="Luxury Perfume">
+        <div>
+          ✔ Premium Packaging
+        </div>
+
+        <div>
+          ✔ Long Lasting Scents
+        </div>
+
+      </div>
 
     </div>
 
@@ -196,7 +299,7 @@
 
 </section>
 
-<!-- PRODUCTS -->
+<!-- BEST SELLERS -->
 
 <section class="products-section">
 
@@ -211,18 +314,67 @@
     </h2>
 
     <p>
-      Explore our most loved perfumes.
+      Explore our most loved luxury perfumes.
     </p>
 
   </div>
 
-  <section class="products" id="products"></section>
+  <!-- CATEGORY FILTERS -->
+
+  <div class="category-buttons">
+
+    <button>Best Sellers</button>
+
+    <button>Oud</button>
+
+    <button>Sweet</button>
+
+    <button>Floral</button>
+
+    <button>Fresh</button>
+
+  </div>
+
+  <!-- PRODUCTS -->
+
+  <section class="products"
+    id="products"></section>
+
+</section>
+
+<!-- BANNER -->
+
+<section class="luxury-banner">
+
+  <div class="banner-content">
+
+    <span class="section-tag">
+      NEW ARRIVALS
+    </span>
+
+    <h2>
+      Luxury Oud Collection
+    </h2>
+
+    <p>
+
+      Discover premium oud fragrances with rich,
+      elegant and long-lasting scent profiles.
+
+    </p>
+
+    <button>
+      Explore Collection
+    </button>
+
+  </div>
 
 </section>
 
 <!-- REVIEWS -->
 
-<section class="reviews-section" id="reviews">
+<section class="reviews-section"
+  id="reviews">
 
   <div class="section-header">
 
@@ -231,7 +383,7 @@
     </span>
 
     <h2>
-      What Customers Say
+      Trusted By Fragrance Lovers
     </h2>
 
   </div>
@@ -246,8 +398,8 @@
 
       <p>
 
-        Amazing fragrance quality and
-        very long-lasting.
+        Amazing fragrances and beautiful packaging.
+        Smells luxurious and lasts all day.
 
       </p>
 
@@ -265,8 +417,8 @@
 
       <p>
 
-        Beautiful packaging and fast delivery.
-        Smells luxurious.
+        One of the best Arabic perfume stores online.
+        Fast shipping and premium quality.
 
       </p>
 
@@ -284,8 +436,8 @@
 
       <p>
 
-        One of the best Arabic perfume
-        stores online.
+        The oud fragrances smell expensive and elegant.
+        Definitely buying again.
 
       </p>
 
@@ -306,7 +458,7 @@
   <div class="newsletter-content">
 
     <span class="section-tag">
-      JOIN OUR COMMUNITY
+      JOIN THE COMMUNITY
     </span>
 
     <h2>
@@ -382,9 +534,9 @@
 
       <p>✔ Secure Stripe Payments</p>
 
-      <p>✔ Fast UK Delivery</p>
+      <p>✔ Fast UK Shipping</p>
 
-      <p>✔ Authentic Fragrances</p>
+      <p>✔ Authentic Luxury Fragrances</p>
 
     </div>
 
@@ -405,8 +557,8 @@
 
       <p>
 
-        Premium Arabic fragrances crafted
-        for elegance and luxury.
+        Luxury Arabic fragrances crafted
+        for elegance and confidence.
 
       </p>
 
@@ -418,11 +570,11 @@
 
       <a href="#home">Home</a>
 
+      <a href="#collections">Collections</a>
+
       <a href="#products">Shop</a>
 
-      <a href="#about">About</a>
-
-      <a href="#reviews">Reviews</a>
+      <a href="#story">Our Story</a>
 
     </div>
 

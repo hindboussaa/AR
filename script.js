@@ -5,7 +5,17 @@ const products = [
   { id:3, name:"Dirham Oud 100ml", price:19.99, img:"images/dirham.png" },
   { id:4, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/forsan.png" },
   { id:5, name:"Mousuf Ramadi", price:19.99, img:"images/mosofgreen.png" },
-  { id:6, name:"Mayar by Lattafa", price:26.99, img:"images/mayar.png" }
+    { id:6, name:"Yara Pink 50ml", price:15.99, img:"images/yara1.png" },
+  { id:7, name:"Choco Musk Pistachio", price:6.99, img:"images/CHOCO MISK.png" },
+  { id:8, name:"Dirham Oud 100ml", price:19.99, img:"images/dirham.png" },
+  { id:9, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/forsan.png" },
+  { id:10, name:"Mousuf Ramadi", price:19.99, img:"images/mosofgreen.png" },
+  { id:11, name:"Mayar by Lattafa", price:26.99, img:"images/mayar.png" },
+    { id:12, name:"Yara Pink 50ml", price:15.99, img:"images/yara1.png" },
+  { id:13, name:"Choco Musk Pistachio", price:6.99, img:"images/CHOCO MISK.png" },
+  { id:14, name:"Dirham Oud 100ml", price:19.99, img:"images/dirham.png" },
+  { id:15, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/forsan.png" },
+  { id:16, name:"Mousuf Ramadi", price:19.99, img:"images/mosofgreen.png" },
 ];
 
 // CART
