@@ -2,635 +2,531 @@
 <html lang="en">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8">
+<title>Arsishop | Luxury Arabic Fragrances</title>
 
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <title>
-    Arsishop | Luxury Arabic Fragrances
-  </title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <meta name="description"
-    content="Discover luxury Arabic perfumes, oud fragrances and premium scents at Arsishop.">
-
-  <link rel="stylesheet" href="style.css">
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- ========================= -->
 <!-- TOP BAR -->
-
-<div class="free-shipping-banner">
-
-  <div class="scrolling-text">
-
-    🚚 Free UK Shipping Over £50 • Luxury Arabic Fragrances • Secure Stripe Payments
-
+<!-- ========================= -->
+<div class="top-bar">
+  <div class="marquee">
+    🚚 FREE UK SHIPPING OVER £50 • LUXURY ARABIC FRAGRANCES • SECURE PAYMENTS • PREMIUM OUD COLLECTIONS
   </div>
-
 </div>
 
+<!-- ========================= -->
 <!-- NAVBAR -->
+<!-- ========================= -->
+<nav class="navbar">
 
-<nav class="sticky-nav">
-
-  <div class="logo">
-    Arsishop
-  </div>
+  <div class="logo">Arsishop</div>
 
   <div class="nav-links">
-
-    <a href="#home">Home</a>
-
+    <a href="#">Home</a>
     <a href="#collections">Collections</a>
-
     <a href="#products">Shop</a>
-
-    <a href="#story">Our Story</a>
-
+    <a href="#story">Story</a>
     <a href="#reviews">Reviews</a>
-
-    <a href="#footer">Contact</a>
-
+    <a href="#">Contact</a>
   </div>
 
   <div class="nav-icons">
 
-    <div class="account-login">
-      <i class="fas fa-user"></i>
-    </div>
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-regular fa-user"></i>
 
-    <div class="cart"
-      onclick="toggleCart()">
-
-      <i class="fas fa-bag-shopping"></i>
-
+    <div class="cart-icon" id="cartButton">
+      <i class="fa-solid fa-bag-shopping"></i>
       <span id="cart-count">0</span>
-
     </div>
+
+
+    
 
   </div>
 
 </nav>
 
+<!-- ========================= -->
 <!-- HERO -->
-
-<section class="hero-slider"
-  id="home">
-
-  <img src="images/mosofgreen.png"
-    alt="Luxury Perfume">
+<!-- ========================= -->
+<section class="hero">
 
   <div class="hero-overlay"></div>
 
-  <div class="slide-text">
+  <div class="hero-content">
 
-    <span class="hero-tag">
-      PREMIUM ARABIC PERFUMES
-    </span>
+    <span class="hero-tag">PREMIUM ARABIC PERFUMES</span>
 
-    <h1>
-      Luxury Fragrances Crafted For Elegance
-    </h1>
+    <h1>Luxury Fragrances Crafted For Elegance</h1>
 
     <p>
-
-      Explore premium oud, musk and floral fragrances
-      inspired by Arabic perfumery traditions.
-
+      Discover premium oud, musk and floral fragrances inspired by timeless Arabic perfumery traditions.
     </p>
 
-    <div class="hero-buttons">
-
-      <button onclick="scrollToProducts()">
-        Shop Collection
-      </button>
-
-      <button class="secondary-btn">
-        Explore Best Sellers
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- TRUST BAR -->
-
-<section class="trust-bar">
-
-  <div class="trust-item">
-
-    <i class="fas fa-truck"></i>
-
-    <span>Fast UK Delivery</span>
-
-  </div>
-
-  <div class="trust-item">
-
-    <i class="fas fa-lock"></i>
-
-    <span>Secure Payments</span>
-
-  </div>
-
-  <div class="trust-item">
-
-    <i class="fas fa-star"></i>
-
-    <span>Premium Quality</span>
-
-  </div>
-
-  <div class="trust-item">
-
-    <i class="fas fa-headset"></i>
-
-    <span>24/7 Support</span>
-
-  </div>
-
-</section>
-
-<!-- COLLECTIONS -->
-
-<section class="collections-section"
-  id="collections">
-
-  <div class="section-header">
-
-    <span class="section-tag">
-      SHOP BY COLLECTION
-    </span>
-
-    <h2>
-      Discover Luxury Collections
-    </h2>
-
-  </div>
-
-  <div class="collections-grid">
-
-    <div class="collection-card">
-
-      <img src="images/yara1.png"
-        alt="Sweet Collection">
-
-      <div class="collection-overlay">
-
-        <h3>Sweet Collection</h3>
-
-        <button>
-          Explore
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="collection-card">
-
-      <img src="images/mosofgreen.png"
-        alt="Oud Collection">
-
-      <div class="collection-overlay">
-
-        <h3>Oud Collection</h3>
-
-        <button>
-          Explore
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="collection-card">
-
-      <img src="images/mayar.png"
-        alt="Floral Collection">
-
-      <div class="collection-overlay">
-
-        <h3>Floral Collection</h3>
-
-        <button>
-          Explore
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- ABOUT -->
-
-<section class="brand-story"
-  id="story">
-
-  <div class="story-content">
-
-    <div class="story-image">
-
-      <img src="images/dirham.png"
-        alt="Luxury Perfume">
-
-    </div>
-
-    <div class="story-text">
-
-      <span class="section-tag">
-        OUR STORY
-      </span>
-
-      <h2>
-        Inspired By Luxury Arabic Perfumery
-      </h2>
-
-      <p>
-
-        Arsishop was created to bring premium Arabic
-        fragrances to fragrance lovers across the UK.
-
-      </p>
-
-      <p>
-
-        We focus on elegant scents, luxury presentation
-        and long-lasting perfumes inspired by traditional
-        Arabic perfumery craftsmanship.
-
-      </p>
-
-      <div class="story-features">
-
-        <div>
-          ✔ Authentic Fragrances
-        </div>
-
-        <div>
-          ✔ Premium Packaging
-        </div>
-
-        <div>
-          ✔ Long Lasting Scents
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- BEST SELLERS -->
-
-<section class="products-section">
-
-  <div class="section-header">
-
-    <span class="section-tag">
-      BEST SELLERS
-    </span>
-
-    <h2>
-      Featured Fragrances
-    </h2>
-
-    <p>
-      Explore our most loved luxury perfumes.
-    </p>
-
-  </div>
-
-  <!-- CATEGORY FILTERS -->
-
-  <div class="category-buttons">
-
-    <button>Best Sellers</button>
-
-    <button>Oud</button>
-
-    <button>Sweet</button>
-
-    <button>Floral</button>
-
-    <button>Fresh</button>
-
-  </div>
-
-  <!-- PRODUCTS -->
-
-  <section class="products"
-    id="products"></section>
-
-</section>
-
-<!-- BANNER -->
-
-<section class="luxury-banner">
-
-  <div class="banner-content">
-
-    <span class="section-tag">
-      NEW ARRIVALS
-    </span>
-
-    <h2>
-      Luxury Oud Collection
-    </h2>
-
-    <p>
-
-      Discover premium oud fragrances with rich,
-      elegant and long-lasting scent profiles.
-
-    </p>
-
-    <button>
-      Explore Collection
-    </button>
-
-  </div>
-
-</section>
-
-<!-- REVIEWS -->
-
-<section class="reviews-section"
-  id="reviews">
-
-  <div class="section-header">
-
-    <span class="section-tag">
-      CUSTOMER REVIEWS
-    </span>
-
-    <h2>
-      Trusted By Fragrance Lovers
-    </h2>
-
-  </div>
-
-  <div class="reviews-grid">
-
-    <div class="review-card">
-
-      <div class="stars">
-        ★★★★★
-      </div>
-
-      <p>
-
-        Amazing fragrances and beautiful packaging.
-        Smells luxurious and lasts all day.
-
-      </p>
-
-      <h4>
-        — Sarah K.
-      </h4>
-
-    </div>
-
-    <div class="review-card">
-
-      <div class="stars">
-        ★★★★★
-      </div>
-
-      <p>
-
-        One of the best Arabic perfume stores online.
-        Fast shipping and premium quality.
-
-      </p>
-
-      <h4>
-        — Ahmed R.
-      </h4>
-
-    </div>
-
-    <div class="review-card">
-
-      <div class="stars">
-        ★★★★★
-      </div>
-
-      <p>
-
-        The oud fragrances smell expensive and elegant.
-        Definitely buying again.
-
-      </p>
-
-      <h4>
-        — Olivia M.
-      </h4>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- NEWSLETTER -->
-
-<section class="newsletter-section">
-
-  <div class="newsletter-content">
-
-    <span class="section-tag">
-      JOIN THE COMMUNITY
-    </span>
-
-    <h2>
-      Get Exclusive Offers
-    </h2>
-
-    <p>
-
-      Subscribe for discounts,
-      new arrivals and fragrance updates.
-
-    </p>
-
-    <div class="newsletter-form">
-
-      <input type="email"
-        placeholder="Enter your email">
-
-      <button>
-        Subscribe
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- CART OVERLAY -->
-
-<div class="cart-overlay"
-  id="cart-overlay"
-  onclick="toggleCart()"></div>
-
-<!-- CART PANEL -->
-
-<div class="cart-panel"
-  id="cart-panel">
-
-  <div class="cart-header">
-
-    <h2>Your Basket</h2>
-
-    <button class="close-cart"
-      onclick="toggleCart()">
-      ✖
-    </button>
-
-  </div>
-
-  <ul id="cart-items-panel"></ul>
-
-  <div class="cart-footer">
-
-    <div class="cart-total">
-
-      <span>Total</span>
-
-      <span>
-        £<span id="cart-total-panel">0.00</span>
-      </span>
-
-    </div>
-
-    <button class="checkout-btn"
-      onclick="checkout()">
-
-      Secure Checkout
-
-    </button>
-
-    <div class="checkout-trust">
-
-      <p>✔ Secure Stripe Payments</p>
-
-      <p>✔ Fast UK Shipping</p>
-
-      <p>✔ Authentic Luxury Fragrances</p>
-
-    </div>
-
-  </div>
+  <div class="hero-buttons">
+
+  <a href="#products" class="primary-btn">
+    Shop Collection
+  </a>
+
+  <a href="#collections" class="secondary-btn">
+    Best Sellers
+  </a>
 
 </div>
 
-<!-- FOOTER -->
+  </div>
 
-<footer class="luxury-footer"
-  id="footer">
+</section>
 
-  <div class="footer-container">
+<!-- ========================= -->
+<!-- TRUST BAR -->
+<!-- ========================= -->
+<section class="trust-bar">
 
-    <div class="footer-section">
+  <div class="trust-item"><i class="fa-solid fa-truck"></i> Fast UK Delivery</div>
+  <div class="trust-item"><i class="fa-solid fa-lock"></i> Secure Payments</div>
+  <div class="trust-item"><i class="fa-solid fa-star"></i> Premium Quality</div>
+  <div class="trust-item"><i class="fa-solid fa-headset"></i> 24/7 Support</div>
 
-      <h2>Arsishop</h2>
+</section>
 
-      <p>
+<!-- ========================= -->
+<!-- COLLECTIONS -->
+<!-- ========================= -->
+<section class="collections" id="collections">
+  <div class="section-header">
+    <span class="section-tag">Shop By Collection</span>
+    <h2>Discover Luxury Collections</h2>
+  </div>
 
-        Luxury Arabic fragrances crafted
-        for elegance and confidence.
+  <div class="collection-grid">
 
-      </p>
+  <div class="collection-card">
+  <img src="images/yara1.png" alt="Sweet Collection">
 
-    </div>
+  <div class="collection-overlay">
 
-    <div class="footer-section">
+    <h3>Sweet Collection</h3>
 
-      <h3>Quick Links</h3>
+    <a href="#products" class="explore-btn">
+      Explore
+    </a>
 
-      <a href="#home">Home</a>
+  </div>
+</div>
 
-      <a href="#collections">Collections</a>
 
-      <a href="#products">Shop</a>
+<div class="collection-card">
+  <img src="images/mosofgreen.png" alt="Sweet Collection">
 
-      <a href="#story">Our Story</a>
+  <div class="collection-overlay">
 
-    </div>
+    <h3>Sweet Collection</h3>
 
-    <div class="footer-section">
+    <a href="#products" class="explore-btn">
+      Explore
+    </a>
 
-      <h3>Customer Care</h3>
+  </div>
+</div>
+<div class="collection-card">
+  <img src="images/forsan.png" alt="Sweet Collection">
 
-      <a href="#">Shipping Policy</a>
+  <div class="collection-overlay">
 
-      <a href="#">Refund Policy</a>
+    <h3>Sweet Collection</h3>
 
-      <a href="#">Privacy Policy</a>
+    <a href="#products" class="explore-btn">
+      Explore
+    </a>
 
-      <a href="#">Terms & Conditions</a>
+  </div>
+</div>
 
-    </div>
+  </div>
 
-    <div class="footer-section">
+</section>
 
-      <h3>Contact</h3>
+<!-- ========================= -->
+<!-- PRODUCTS -->
+<!-- ========================= -->
+<section class="products-section" id="products">
+  <div class="section-header">
+    <span class="section-tag">Best Sellers</span>
+    <h2>Featured Fragrances</h2>
+    <p>Explore our most loved luxury perfumes.</p>
+  </div>
 
-      <p>support@arsishop.com</p>
-
-      <p>London, United Kingdom</p>
-
-      <div class="social-icons">
-
-        <a href="#">
-          <i class="fab fa-instagram"></i>
-        </a>
-
-        <a href="#">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-
-        <a href="#">
-          <i class="fab fa-tiktok"></i>
-        </a>
-
+  <div class="products-grid">
+    <!-- PRODUCT 1 -->
+    <div class="product-card">
+      <img src="images/yara1.png" alt="Yara Pink">
+      <div class="product-info">
+        <h3>Yara Pink</h3>
+        <p>Luxury Sweet Perfume</p>
+        <div class="price">£34.99</div>
+        <button onclick="addToCart(1, this)">Add To Cart</button>
       </div>
+    </div>
 
+    <!-- PRODUCT 2 -->
+    <div class="product-card">
+      <img src="images/mosofgreen.png" alt="Mosof Green">
+      <div class="product-info">
+        <h3>Mosof Green</h3>
+        <p>Elegant Oud Fragrance</p>
+        <div class="price">£44.99</div>
+<button onclick="addToCart(2, this)">Add To Cart</button>
+      </div>
+    </div>
+
+    <!-- PRODUCT 3 -->
+    <div class="product-card">
+      <img src="images/mayar.png" alt="Mayar">
+      <div class="product-info">
+        <h3>Mayar</h3>
+        <p>Luxury Floral Scent</p>
+        <div class="price">£39.99</div>
+        <button onclick="addToCart(3, this)">Add To Cart</button>
+
+         </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- ========================= -->
+<!-- STORY -->
+<!-- ========================= -->
+<section class="story" id="story">
+
+  <div class="story-image">
+    <img src="images/dirham.png" alt="Luxury Perfume">
+  </div>
+
+  <div class="story-content">
+
+    <span class="section-tag">Our Story</span>
+
+    <h2>Inspired By Arabic Luxury</h2>
+
+    <p>
+      Arsishop was created to bring premium Arabic fragrances to perfume lovers across the UK.
+    </p>
+
+    <p>
+      We focus on elegant scents, premium presentation and unforgettable fragrance experiences.
+    </p>
+
+    <div class="story-features">
+      <div>✔ Authentic Fragrances</div>
+      <div>✔ Premium Packaging</div>
+      <div>✔ Long Lasting Scents</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- REVIEWS -->
+<!-- ========================= -->
+<section class="reviews" id="reviews">
+
+  <div class="section-header">
+    <span class="section-tag">Customer Reviews</span>
+    <h2>Trusted By Fragrance Lovers</h2>
+  </div>
+
+  <div class="review-grid">
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>Amazing fragrances and beautiful packaging.</p>
+      <h4>— Sarah K.</h4>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>Fast shipping and incredible quality.</p>
+      <h4>— Ahmed R.</h4>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>The oud collection smells expensive and elegant.</p>
+      <h4>— Olivia M.</h4>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- NEWSLETTER -->
+<!-- ========================= -->
+<section class="newsletter">
+
+  <span class="section-tag">Join The Community</span>
+
+  <h2>Get Exclusive Offers</h2>
+
+  <p>Subscribe for discounts, new arrivals and fragrance updates.</p>
+
+  <div class="newsletter-form">
+    <input type="email" placeholder="Enter your email">
+    <button>Subscribe</button>
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========================= -->
+
+
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<!-- ========================= -->
+<!-- CART SIDEBAR -->
+<!-- ========================= -->
+
+<div class="cart-sidebar" id="cartSidebar">
+
+    <!-- HEADER -->
+
+    <div class="cart-header">
+        <div>
+            <h2>Your Basket</h2>
+            <p class="secure-text">
+                <i class="fa-solid fa-lock"></i>
+                Secure checkout
+            </p>
+        </div>
+
+        <button id="closeCart">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- CART ITEMS -->
+
+      <div class="cart-items" id="cartItems">
+
+        <!-- SHIPPING BAR -->
+
+        <div class="shipping-box">
+
+            <div class="shipping-top">
+
+                <i class="fa-solid fa-truck-fast"></i>
+
+              <p class="shipping-text">
+    You're <span>£30.01</span> away from free shipping!
+</p>
+
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <small>Free shipping on orders over £50</small>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="cart-footer">
+        <div class="cart-row shipping-row">
+            <span>Shipping</span>
+            <small>Calculated at checkout</small>
+        </div>
+        <div class="cart-row total-row">
+    <span>Subtotal</span>
+    <strong id="cartTotal">£0.00</strong>
+</div>
+
+        <!-- CHECKOUT -->
+   <button class="checkout-btn" onclick="checkout()">
+    <i class="fa-solid fa-lock"></i>
+    <span>Secure Checkout</span>
+</button>
+        <p class="secure-payment">
+            <i class="fa-solid fa-shield"></i>
+            100% Secure & Encrypted Payments
+        </p>
+
+
+
+        
+        <!-- FEATURES -->
+
+        <div class="basket-features">
+
+            <div class="basket-feature">
+                <i class="fa-solid fa-truck"></i>
+                <span>Fast UK Delivery</span>
+            </div>
+
+            <div class="basket-feature">
+                <i class="fa-solid fa-award"></i>
+                <span>Premium Quality</span>
+            </div>
+
+            <div class="basket-feature">
+                <i class="fa-solid fa-lock"></i>
+                <span>Secure Payments</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========================= -->
+<!-- FOOTER -->
+<!-- ========================= -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <h2>Arsishop</h2>
+      <p>Luxury Arabic fragrances crafted for elegance and confidence.</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <a href="#">Home</a>
+      <a href="#collections">Collections</a>
+      <a href="#products">Shop</a>
+      <a href="#story">Story</a>
+    </div>
+    <div>
+      <h3>Customer Care</h3>
+      <a href="#">Shipping Policy</a>
+      <a href="#">Refund Policy</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+
+    <div>
+      <h3>Follow Us</h3>
+      <div class="socials">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-tiktok"></i>
+      </div>
     </div>
 
   </div>
 
   <div class="footer-bottom">
-
-    © 2026 Arsishop.
-    All rights reserved.
-
+    © 2026 Arsishop. All rights reserved.
   </div>
 
 </footer>
 
+
+
+
+
+<!-- ========================= -->
+<!-- CHAT WIDGET -->
+<!-- 
+
+<div class="chat-widget">
+
+    <div class="chat-header">
+
+        <h3>Chat with us</h3>
+
+        <p>
+            👋 Hi, message us with any questions.
+            We're happy to help!
+        </p>
+
+    </div>
+
+
+    <div class="chat-input">
+
+        <input type="text" placeholder="Write message">
+
+        <button>
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+
+    </div>
+
+
+    <div class="chat-questions">
+
+        <h4>Instant answers</h4>
+
+        <button>Track my order</button>
+
+        <button>Do you have physical store?</button>
+
+        <button>Which type of fragrances do you sell?</button>
+
+    </div>
+
+</div>-->
+
+
+
+
+
 <script src="script.js"></script>
 
 </body>
-
 </html>

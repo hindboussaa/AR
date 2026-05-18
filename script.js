@@ -1,339 +1,430 @@
+// ================================
 // PRODUCTS
+// ================================
+
 const products = [
   { id:1, name:"Yara Pink 50ml", price:15.99, img:"images/yara1.png" },
   { id:2, name:"Choco Musk Pistachio", price:6.99, img:"images/CHOCO MISK.png" },
   { id:3, name:"Dirham Oud 100ml", price:19.99, img:"images/dirham.png" },
   { id:4, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/forsan.png" },
   { id:5, name:"Mousuf Ramadi", price:19.99, img:"images/mosofgreen.png" },
-    { id:6, name:"Yara Pink 50ml", price:15.99, img:"images/yara1.png" },
-  { id:7, name:"Choco Musk Pistachio", price:6.99, img:"images/CHOCO MISK.png" },
+  { id:6, name:"Yara Pink 50ml", price:15.99, img:"images/pink.png" },
+  { id:7, name:"Choco Musk Pistachio", price:6.99, img:"images/silver.png" },
   { id:8, name:"Dirham Oud 100ml", price:19.99, img:"images/dirham.png" },
-  { id:9, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/forsan.png" },
-  { id:10, name:"Mousuf Ramadi", price:19.99, img:"images/mosofgreen.png" },
-  { id:11, name:"Mayar by Lattafa", price:26.99, img:"images/mayar.png" },
-    { id:12, name:"Yara Pink 50ml", price:15.99, img:"images/yara1.png" },
-  { id:13, name:"Choco Musk Pistachio", price:6.99, img:"images/CHOCO MISK.png" },
-  { id:14, name:"Dirham Oud 100ml", price:19.99, img:"images/dirham.png" },
-  { id:15, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/forsan.png" },
-  { id:16, name:"Mousuf Ramadi", price:19.99, img:"images/mosofgreen.png" },
+  { id:9, name:"Qaed Al Fursan Unlimited", price:21.99, img:"images/ily.png" },
+  { id:10, name:"Mousuf Ramadi", price:19.99, img:"images/amira.png" },
+  { id:11, name:"Mayar by Lattafa", price:26.99, img:"images/mayar.png" }
 ];
 
+// ================================
 // CART
+// ================================
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// ================================
+// ELEMENTS
+// ================================
+
+const productsContainer = document.querySelector(".products-grid");
+const cartCount = document.querySelector(".cart-icon span");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+
+const cartSidebar = document.getElementById("cartSidebar");
+const cartOverlay = document.getElementById("cartOverlay");
+const closeCart = document.getElementById("closeCart");
+const cartIcon = document.querySelector(".cart-icon");
+
+const shippingText = document.querySelector(".shipping-text");
+const progressFill = document.querySelector(".progress-fill");
+
+// ================================
+// SAVE CART
+// ================================
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// ================================
 // RENDER PRODUCTS
-const productsContainer = document.getElementById("products");
+// ================================
 
-products.forEach(product => {
+function renderProducts() {
 
-  const div = document.createElement("div");
+  if (!productsContainer) return;
 
-  div.className = "product";
+  productsContainer.innerHTML = "";
 
-  div.innerHTML = `
-  
-    <img src="${product.img}" alt="${product.name}">
+  products.forEach(product => {
 
-    <div class="product-content">
+    productsContainer.innerHTML += `
 
-      <h3>${product.name}</h3>
+      <div class="product-card">
 
-      <p>£${product.price.toFixed(2)}</p>
+        <img src="${product.img}" alt="${product.name}">
 
-      <button onclick="addToCart(${product.id})">
-        Add To Cart
-      </button>
+        <div class="product-info">
 
-    </div>
-  `;
+          <h3>${product.name}</h3>
 
-  productsContainer.appendChild(div);
+          <p>Luxury Arabic Fragrance</p>
 
-});
+          <div class="product-bottom">
 
-// ADD TO CART
-function addToCart(id){
+            <span>£${product.price.toFixed(2)}</span>
 
-  const product =
-  products.find(p => p.id === id);
+            <button onclick="addToCart(${product.id}, this)">
+              Add To Cart
+            </button>
 
-  const existing =
-  cart.find(item => item.id === id);
-
-  if(existing){
-
-    existing.qty++;
-
-  } else {
-
-    cart.push({
-      ...product,
-      qty:1
-    });
-
-  }
-
-  saveCart();
-  updateCart();
-}
-
-// REMOVE ITEM
-function removeItem(id){
-
-  cart =
-  cart.filter(p => p.id !== id);
-
-  saveCart();
-  updateCart();
-}
-
-// INCREASE QTY
-function increaseQty(id){
-
-  const item =
-  cart.find(p => p.id === id);
-
-  if(item){
-    item.qty++;
-  }
-
-  saveCart();
-  updateCart();
-}
-
-// DECREASE QTY
-function decreaseQty(id){
-
-  const item =
-  cart.find(p => p.id === id);
-
-  if(!item) return;
-
-  item.qty--;
-
-  if(item.qty <= 0){
-
-    cart =
-    cart.filter(p => p.id !== id);
-
-  }
-
-  saveCart();
-  updateCart();
-}
-
-// UPDATE CART UI
-function updateCart(){
-
-  const cartItems =
-  document.getElementById("cart-items-panel");
-
-  const cartTotal =
-  document.getElementById("cart-total-panel");
-
-  const cartCount =
-  document.getElementById("cart-count");
-
-  const mobileCount =
-  document.getElementById("mobile-cart-count");
-
-  cartItems.innerHTML = "";
-
-  let total = 0;
-  let count = 0;
-
-  cart.forEach(item => {
-
-    total += item.price * item.qty;
-    count += item.qty;
-
-    const li = document.createElement("li");
-
-    li.innerHTML = `
-
-      <div class="cart-item">
-
-        <img src="${item.img}" alt="${item.name}">
-
-        <div>
-
-          <h4>${item.name}</h4>
-
-          <p>£${item.price.toFixed(2)}</p>
-
-          <button onclick="decreaseQty(${item.id})">
-            -
-          </button>
-
-          <span>${item.qty}</span>
-
-          <button onclick="increaseQty(${item.id})">
-            +
-          </button>
-
-          <button onclick="removeItem(${item.id})">
-            Remove
-          </button>
+          </div>
 
         </div>
 
       </div>
 
     `;
+  });
+}
 
-    cartItems.appendChild(li);
+// ================================
+// ADD TO CART
+// ================================
 
+function addToCart(id, button) {
+
+  const product = products.find(p => p.id === id);
+
+  if (!product) return;
+
+  const existing = cart.find(item => item.id === id);
+
+  if (existing) {
+
+    existing.quantity++;
+
+  } else {
+
+    cart.push({
+      ...product,
+      quantity: 1
+    });
+  }
+
+  saveCart();
+  updateCart();
+
+  // OPEN SIDEBAR
+  openCart();
+
+  // SHAKE ICON
+  cartIcon.classList.add("bag-shake");
+
+  setTimeout(() => {
+    cartIcon.classList.remove("bag-shake");
+  }, 500);
+
+  // FLY EFFECT
+  if(button){
+
+    const card = button.closest(".product-card");
+    const img = card.querySelector("img");
+
+    flyToCart(img);
+  }
+
+}
+
+// ================================
+// UPDATE CART
+// ================================
+
+function updateCart() {
+
+  cartItems.innerHTML = "";
+
+  let total = 0;
+  let count = 0;
+
+  if(cart.length === 0){
+
+    cartItems.innerHTML = `
+      <div class="empty-cart">
+        <h3>Your basket is empty</h3>
+        <p>Add some luxury fragrances.</p>
+      </div>
+    `;
+
+    cartTotal.innerText = "£0.00";
+    cartCount.innerText = "0";
+
+    updateShipping(0);
+
+    return;
+  }
+
+  cart.forEach(item => {
+
+    total += item.price * item.quantity;
+    count += item.quantity;
+
+    cartItems.innerHTML += `
+
+      <div class="cart-item">
+
+        <img src="${item.img}" alt="${item.name}">
+
+        <div class="cart-item-info">
+
+          <h4>${item.name}</h4>
+
+          <p class="cart-price">
+            £${item.price.toFixed(2)}
+          </p>
+
+          <div class="cart-qty">
+
+            <button onclick="decreaseQty(${item.id})">
+              -
+            </button>
+
+            <span>${item.quantity}</span>
+
+            <button onclick="increaseQty(${item.id})">
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <button class="remove-btn"
+          onclick="removeItem(${item.id})">
+          ✕
+        </button>
+
+      </div>
+
+    `;
   });
 
-  cartTotal.innerText =
-  total.toFixed(2);
+  cartTotal.innerText = `£${total.toFixed(2)}`;
+  cartCount.innerText = count;
 
-  cartCount.innerText =
-  count;
+  updateShipping(total);
+}
 
-  if(mobileCount){
-    mobileCount.innerText = count;
+// ================================
+// QUANTITY
+// ================================
+
+function increaseQty(id){
+
+  const item = cart.find(p => p.id === id);
+
+  item.quantity++;
+
+  saveCart();
+  updateCart();
+}
+
+function decreaseQty(id){
+
+  const item = cart.find(p => p.id === id);
+
+  if(item.quantity > 1){
+
+    item.quantity--;
+
+  } else {
+
+    cart = cart.filter(p => p.id !== id);
+  }
+
+  saveCart();
+  updateCart();
+}
+
+// ================================
+// REMOVE ITEM
+// ================================
+
+function removeItem(id){
+
+  cart = cart.filter(item => item.id !== id);
+
+  saveCart();
+  updateCart();
+}
+
+// ================================
+// SHIPPING BAR
+// ================================
+
+function updateShipping(total){
+
+  const target = 50;
+
+  let progress = (total / target) * 100;
+
+  if(progress > 100){
+    progress = 100;
+  }
+
+  progressFill.style.width = `${progress}%`;
+
+  if(total >= target){
+
+    shippingText.innerHTML =
+      `You unlocked FREE shipping 🎉`;
+
+  } else {
+
+    const remaining = (target - total).toFixed(2);
+
+    shippingText.innerHTML =
+      `You're <span>£${remaining}</span> away from free shipping!`;
   }
 }
 
-// TOGGLE CART
-function toggleCart(){
+// ================================
+// OPEN CART
+// ================================
 
-  document
-    .getElementById("cart-panel")
-    .classList
-    .toggle("open");
+function openCart(){
 
-  document
-    .getElementById("cart-overlay")
-    .classList
-    .toggle("active");
+  cartSidebar.classList.add("active");
+  cartOverlay.classList.add("active");
 }
 
-// SAVE CART
-function saveCart(){
+// ================================
+// CLOSE CART
+// ================================
 
-  localStorage.setItem(
-    "cart",
-    JSON.stringify(cart)
-  );
+function closeBasket(){
+
+  cartSidebar.classList.remove("active");
+  cartOverlay.classList.remove("active");
 }
 
+cartIcon.addEventListener("click", openCart);
+
+closeCart.addEventListener("click", closeBasket);
+
+cartOverlay.addEventListener("click", closeBasket);
+
+// ESC CLOSE
+
+document.addEventListener("keydown", (e) => {
+
+  if(e.key === "Escape"){
+    closeBasket();
+  }
+});
+
+// ================================
+// FLY EFFECT
+// ================================
+
+function flyToCart(imgElement){
+
+  const cart = document.querySelector(".cart-icon");
+
+  const imgClone = imgElement.cloneNode(true);
+
+  const rect = imgElement.getBoundingClientRect();
+  const cartRect = cart.getBoundingClientRect();
+
+  imgClone.classList.add("flying-img");
+
+  imgClone.style.left = rect.left + "px";
+  imgClone.style.top = rect.top + "px";
+  imgClone.style.width = rect.width + "px";
+  imgClone.style.height = rect.height + "px";
+
+  document.body.appendChild(imgClone);
+
+  requestAnimationFrame(() => {
+
+    imgClone.style.left =
+      (cartRect.left + 20) + "px";
+
+    imgClone.style.top =
+      (cartRect.top + 20) + "px";
+
+    imgClone.style.width = "20px";
+    imgClone.style.height = "20px";
+
+    imgClone.style.opacity = "0";
+  });
+
+  setTimeout(() => {
+
+    imgClone.remove();
+
+    cart.classList.add("cart-pulse");
+
+    setTimeout(() => {
+      cart.classList.remove("cart-pulse");
+    }, 400);
+
+  }, 800);
+}
+
+// ================================
 // CHECKOUT
-async function checkout(){
+// ================================
 
-  console.log(
-    "Cart before checkout:",
-    cart
-  );
+async function checkout(){
 
   if(cart.length === 0){
 
     alert("Your basket is empty");
+
     return;
   }
 
-  saveCart();
-
-  try {
+  try{
 
     const response = await fetch(
       "https://ar-production-006f.up.railway.app/create-checkout-session",
       {
-        method: "POST",
+        method:"POST",
 
-        headers: {
-          "Content-Type": "application/json"
+        headers:{
+          "Content-Type":"application/json"
         },
 
-        body: JSON.stringify(cart)
+        body:JSON.stringify(cart)
       }
     );
 
     const data = await response.json();
 
-    console.log("SERVER RESPONSE:", data);
-
     if(data.url){
 
-      // GET OLD ORDERS
-      let orders =
-      JSON.parse(
-        localStorage.getItem("orders")
-      ) || [];
+      localStorage.removeItem("cart");
 
-      // SAVE NEW ORDERS
-      cart.forEach(item => {
-
-        orders.push({
-
-          id: item.id,
-
-          name: item.name,
-
-          price: item.price,
-
-          image: item.img,
-
-          quantity: item.qty
-
-        });
-
-      });
-
-      // SAVE TO LOCAL STORAGE
-      localStorage.setItem(
-        "orders",
-        JSON.stringify(orders)
-      );
-
-      // CLEAR CART
-      cart = [];
-
-      saveCart();
-
-      updateCart();
-
-      // REDIRECT TO STRIPE
       window.location.href = data.url;
 
     } else {
 
-      alert(
-        data.error || "Checkout failed"
-      );
-
+      alert("Checkout failed");
     }
 
   } catch(error){
 
-    console.error(
-      "Checkout error:",
-      error
-    );
+    console.log(error);
 
-    alert(
-      "Payment failed. Check server."
-    );
+    alert("Server error");
   }
 }
 
-// LOAD CART ON PAGE LOAD
+// ================================
+// INIT
+// ================================
+
+renderProducts();
 updateCart();
-
-
-
-
-
-
-
-
-function scrollToProducts(){
-
-  document
-    .getElementById("products")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-}
