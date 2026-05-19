@@ -1595,3 +1595,88 @@ html {
 html {
   scroll-behavior: smooth;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Sticky policy nav */
+.policy-nav {
+  position: sticky;
+  top: 80px;
+  z-index: 999;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  gap: 20px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 40px auto;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.policy-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+.policy-nav a.active {
+  color: #000;
+}
+
+.policy-nav a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000;
+}
+
+/* Progress bar */
+.progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #eee;
+}
+
+.progress-fill {
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #000, #666);
+  transition: width 0.2s ease;
+}
+
+/* Section polish */
+.policy-section {
+  scroll-margin-top: 120px;
+  padding: 70px 20px;
+  max-width: 900px;
+  margin: 60px auto;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  transition: 0.4s ease;
+}
+
+.policy-section.active {
+  transform: translateY(0);
+}

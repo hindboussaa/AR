@@ -453,3 +453,42 @@ const observer = new IntersectionObserver((entries) => {
 sections.forEach(section => {
   observer.observe(section);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+const policySections = document.querySelectorAll(".policy-section");
+const navLinks = document.querySelectorAll(".policy-nav a");
+const progressBar = document.getElementById("policyProgress");
+
+// Smooth active link + progress tracking
+window.addEventListener("scroll", () => {
+  let scrollPos = window.scrollY;
+  let docHeight = document.body.scrollHeight - window.innerHeight;
+  let progress = (scrollPos / docHeight) * 100;
+
+  progressBar.style.width = progress + "%";
+
+  policySections.forEach(section => {
+    let top = section.offsetTop - 150;
+    let bottom = top + section.offsetHeight;
+
+    let id = section.getAttribute("id");
+
+    if (scrollPos >= top && scrollPos < bottom) {
+      navLinks.forEach(link => link.classList.remove("active"));
+      document.querySelector(`.policy-nav a[href="#${id}"]`)
+        .classList.add("active");
+
+      section.classList.add("active");
+    }
+  });
+});
