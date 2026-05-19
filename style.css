@@ -1559,3 +1559,39 @@ font-size:22px;
 }
 
 }
+html {
+  scroll-behavior: smooth;
+}
+
+.policy-section {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 60px auto;
+  border-radius: 12px;
+  background: #fff;
+  transition: all 0.6s ease;
+  opacity: 0.7;
+  transform: translateY(20px);
+}
+
+/* when section is active */
+.policy-section.active {
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* highlight flash effect */
+.policy-section.flash {
+  animation: flashHighlight 1.2s ease;
+}
+
+@keyframes flashHighlight {
+  0% { background: #fff; }
+  30% { background: #f7f1e8; }
+  100% { background: #fff; }
+}
+
+html {
+  scroll-behavior: smooth;
+}

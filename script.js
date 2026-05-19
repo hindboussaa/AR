@@ -428,3 +428,28 @@ async function checkout(){
 
 renderProducts();
 updateCart();
+
+
+
+
+const sections = document.querySelectorAll(".policy-section");
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
+
+      // temporary flash effect
+      entry.target.classList.add("flash");
+      setTimeout(() => {
+        entry.target.classList.remove("flash");
+      }, 1200);
+    }
+  });
+}, {
+  threshold: 0.3
+});
+
+sections.forEach(section => {
+  observer.observe(section);
+});
