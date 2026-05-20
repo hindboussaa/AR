@@ -12,20 +12,21 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend
-//app.use(express.static(path.join(__dirname, "..", "public")));
-
-
 const publicPath = path.join(__dirname, "..", "public");
 
 app.use(express.static(publicPath));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(publicPath, "index.html"));
+});
 
 app.get("/favicon.ico", (req, res) => {
   res.sendFile(path.join(publicPath, "favicon.ico"));
 });
 
-app.get("/", (req, res) => {
-res.sendFile(path.resolve(__dirname, "..", "index.html"));});
+
+
+
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
