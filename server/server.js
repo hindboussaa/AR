@@ -16,8 +16,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 
+const publicPath = path.join(__dirname, "..", "public");
+
+app.use(express.static(publicPath));
+
 app.get("/favicon.ico", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "favicon.ico"));
+  res.sendFile(path.join(publicPath, "favicon.ico"));
 });
 
 app.get("/", (req, res) => {
