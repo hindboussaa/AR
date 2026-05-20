@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+
 const express = require("express");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve frontend
-app.use(express.static(path.resolve(__dirname, "..")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/", (req, res) => {
 res.sendFile(path.resolve(__dirname, "..", "index.html"));});
