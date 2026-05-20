@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-
 const express = require("express");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -12,10 +11,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, "..", "public")));
-
-
 const publicPath = path.join(__dirname, "..", "public");
 
 app.use(express.static(publicPath));
@@ -25,8 +20,10 @@ app.get("/favicon.ico", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-res.sendFile(path.resolve(__dirname, "..", "index.html"));});
+  res.sendFile(path.join(publicPath, "index.html"));
+});
 
+// ✅ FIXED: route is now OUTSIDE "/" route
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const cart = req.body;
@@ -46,20 +43,14 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-      success_url:
-        "https://ar-production-006f.up.railway.app/success.html",
-      cancel_url:
-        "https://ar-production-006f.up.railway.app/cancel.html",
+      success_url: "https://ar-production-006f.up.railway.app/success.html",
+      cancel_url: "https://ar-production-006f.up.railway.app/cancel.html",
     });
 
     res.json({ url: session.url });
-
   } catch (error) {
     console.error(error);
-
-    res.status(500).json({
-      error: error.message,
-    });
+    res.status(500).json({ error: error.message });
   }
 });
 
