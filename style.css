@@ -1680,3 +1680,39 @@ html {
 .policy-section.active {
   transform: translateY(0);
 }
+
+
+
+
+
+
+
+
+
+
+.policy-section {
+  transition: all 0.6s ease;
+  scroll-margin-top: 100px;
+}
+
+.policy-section:target {
+  animation: glowFocus 1.2s ease;
+}
+
+@keyframes glowFocus {
+  0% {
+    background: #fff;
+    transform: scale(0.98);
+  }
+  40% {
+    background: #f7f1e8;
+    transform: scale(1.01);
+  }
+  100% {
+    background: #fff;
+    transform: scale(1);
+  }
+}
+html {
+  scroll-behavior: smooth;
+}
