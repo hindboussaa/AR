@@ -12,8 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const publicPath = path.join(__dirname, "..", "public");
-
+const publicPath = path.join(__dirname, "public");
 app.use(express.static(publicPath));
 
 app.get("/", (req, res) => {
@@ -47,10 +46,8 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-      success_url:
-        "https://ar-production-006f.up.railway.app/success.html",
-      cancel_url:
-        "https://ar-production-006f.up.railway.app/cancel.html",
+       success_url: "https://www.arsishop.co.uk/success.html",
+      cancel_url: "https://www.arsishop.co.uk/cancel.html",
     });
 
     res.json({ url: session.url });
