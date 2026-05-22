@@ -27,7 +27,7 @@ ${pages.map(page => `
 
 path.join(__dirname, 'public/sitemap.xml'),
   sitemap
-);
+;
 
 console.log('✅ sitemap.xml generated');
 
