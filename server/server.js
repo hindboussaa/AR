@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
 
 const express = require("express");
 const cors = require("cors");
