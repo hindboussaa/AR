@@ -25,9 +25,10 @@ ${pages.map(page => `
 </urlset>
 `;
 
-fs.writeFileSync(
-  path.join(__dirname, '../public/sitemap.xml'),
+path.join(__dirname, 'public/sitemap.xml'),
   sitemap
 );
 
 console.log('✅ sitemap.xml generated');
+
+
