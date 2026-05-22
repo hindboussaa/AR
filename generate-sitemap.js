@@ -1,22 +1,33 @@
 const fs = require('fs');
-const { SitemapStream, streamToPromise } = require('sitemap');
+const path = require('path');
 
-async function generate() {
-  const smStream = new SitemapStream({
-    hostname: 'https://www.arsishop.co.uk',
-  });
+const BASE_URL = 'https://www.arsishop.co.uk';
 
-  smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
+const pages = [
+  '/',
+  '/shop',
+  '/about',
+  '/contact',
+];
 
-  // Add more pages here
-  smStream.write({ url: '/shop', changefreq: 'weekly', priority: 0.8 });
-  smStream.write({ url: '/contact', changefreq: 'monthly', priority: 0.5 });
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  smStream.end();
+${pages.map(page => `
+  <url>
+    <loc>${BASE_URL}${page}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>${page === '/' ? '1.0' : '0.8'}</priority>
+  </url>
+`).join('')}
 
-  const sitemap = await streamToPromise(smStream);
+</urlset>
+`;
 
-  fs.writeFileSync('./public/sitemap.xml', sitemap.toString());
-}
+fs.writeFileSync(
+  path.join(__dirname, '../public/sitemap.xml'),
+  sitemap
+);
 
-generate();
+console.log('✅ sitemap.xml generated');

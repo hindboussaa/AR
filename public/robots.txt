@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://arsishop.co.uk/sitemap.xml
