@@ -1,6 +1,13 @@
 require("dotenv").config();
 console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
 
+
+
+
+console.log("BODY:", req.body);
+console.log("TYPE:", typeof req.body);
+console.log("ARRAY:", Array.isArray(req.body));
+
 const express = require("express");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -29,7 +36,13 @@ app.get("/favicon.ico", (req, res) => {
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
-    const cart = req.body;
+
+    let cart = req.body;
+
+    // 👇 ADD IT RIGHT HERE
+    if (!Array.isArray(cart) || cart.length === 0) {
+      return res.status(400).json({ error: "Invalid cart" });
+    }
 
     const line_items = cart.map((item) => ({
       price_data: {
@@ -37,32 +50,23 @@ app.post("/create-checkout-session", async (req, res) => {
         product_data: {
           name: item.name,
         },
-        unit_amount: Math.round(item.price * 100),
+        unit_amount: Math.round(Number(item.price) * 100),
       },
-      quantity: item.qty || 1,
+      quantity: item.quantity || 1,
     }));
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-      success_url:
-        "https://ar-production-006f.up.railway.app/success.html",
-      cancel_url:
-        "https://ar-production-006f.up.railway.app/cancel.html",
+      success_url: "https://ar-production-006f.up.railway.app/success.html",
+      cancel_url: "https://ar-production-006f.up.railway.app/cancel.html",
     });
 
     res.json({ url: session.url });
 
   } catch (error) {
     console.error(error);
-
-    res.status(500).json({
-      error: error.message,
-    });
+    res.status(500).json({ error: error.message });
   }
-});
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
 });
