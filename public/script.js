@@ -373,9 +373,21 @@ function flyToCart(imgElement){
   }, 800);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 // ================================
 // CHECKOUT
-// ================================
+/*================================
 
 async function checkout(){
 
@@ -429,7 +441,63 @@ async function checkout(){
 renderProducts();
 updateCart();
 
+*/
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+
+    let cart = req.body;
+
+    // FIX 1: if body comes as string
+    if (typeof cart === "string") {
+      cart = JSON.parse(cart);
+    }
+
+    // FIX 2: validate array
+    if (!Array.isArray(cart)) {
+      return res.status(400).json({ error: "Cart must be an array" });
+    }
+
+    const line_items = cart.map((item) => ({
+      price_data: {
+        currency: "gbp",
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: Math.round(Number(item.price) * 100),
+      },
+      quantity: item.quantity || 1,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items,
+      success_url: "https://ar-production-006f.up.railway.app/success.html",
+      cancel_url: "https://ar-production-006f.up.railway.app/cancel.html",
+    });
+
+    res.json({ url: session.url });
+
+  } catch (error) {
+    console.error("FULL ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 const sections = document.querySelectorAll(".policy-section");
