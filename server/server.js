@@ -1,12 +1,4 @@
 require("dotenv").config();
-console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
-
-
-
-
-console.log("BODY:", req.body);
-console.log("TYPE:", typeof req.body);
-console.log("ARRAY:", Array.isArray(req.body));
 
 const express = require("express");
 const cors = require("cors");
@@ -16,30 +8,37 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}));
+
+app.options("*", cors());
+
+
+
+
 app.use(cors());
 app.use(express.json());
 
 const publicPath = path.join(__dirname, "public");
 app.use(express.static(publicPath));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(publicPath, "index.html"));
-});
-
-app.get("/favicon.ico", (req, res) => {
-  res.sendFile(path.join(publicPath, "favicon.ico"));
-});
-
-
-
-
+console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
 
     let cart = req.body;
 
-    // 👇 ADD IT RIGHT HERE
+    // 🔍 DEBUG LOGS GO HERE
+    console.log("BODY:", cart);
+    console.log("TYPE:", typeof cart);
+    console.log("ARRAY:", Array.isArray(cart));
+
+    // VALIDATION
     if (!Array.isArray(cart) || cart.length === 0) {
       return res.status(400).json({ error: "Invalid cart" });
     }
@@ -66,7 +65,11 @@ app.post("/create-checkout-session", async (req, res) => {
     res.json({ url: session.url });
 
   } catch (error) {
-    console.error(error);
+    console.error("FULL ERROR:", error);
     res.status(500).json({ error: error.message });
   }
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
