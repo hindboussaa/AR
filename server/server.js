@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const path = require("path");
 
 const app = express();
@@ -19,13 +18,14 @@ app.use(cors({
 
 
 
-app.use(cors());
 app.use(express.json());
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
+
 
 const publicPath = path.join(__dirname, "public");
 app.use(express.static(publicPath));
 
-console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
 
 app.post("/create-checkout-session", async (req, res) => {
   try {

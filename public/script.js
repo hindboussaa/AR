@@ -371,49 +371,48 @@ function flyToCart(imgElement){
 
 // ================================
 // CHECKOUT
-// ================================
+async function checkout() {
 
-async function checkout(){
-
-  if(cart.length === 0){
-
+  if (cart.length === 0) {
     alert("Your basket is empty");
-
     return;
   }
 
-  try{
+  try {
 
     const response = await fetch(
       "https://ar-production-006f.up.railway.app/create-checkout-session",
       {
-        method:"POST",
-
-        headers:{
-          "Content-Type":"application/json"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
-
-        body:JSON.stringify(cart)
+        body: JSON.stringify(cart)
       }
     );
 
-    const data = await response.json();
+    // ✅ SAFE READ (IMPORTANT FIX)
+    const text = await response.text();
+    console.log("RAW RESPONSE:", text);
 
-    if(data.url){
-
-      localStorage.removeItem("cart");
-
-      window.location.href = data.url;
-
-    } else {
-
-      alert("Checkout failed");
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("NOT JSON RESPONSE:", text);
+      alert("Server error (invalid response)");
+      return;
     }
 
-  } catch(error){
+    if (data.url) {
+      localStorage.removeItem("cart");
+      window.location.href = data.url;
+    } else {
+      alert(data.error || "Checkout failed");
+    }
 
-    console.log(error);
-
+  } catch (error) {
+    console.log("CHECKOUT ERROR:", error);
     alert("Server error");
   }
 }
@@ -488,10 +487,3 @@ window.addEventListener("scroll", () => {
   });
 });
 
-// ================================
-// START SERVER
-// ================================
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
-});
