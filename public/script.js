@@ -27,12 +27,10 @@ const productsContainer = document.querySelector(".products-grid");
 const cartCount = document.querySelector(".cart-icon span");
 const cartItems = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
-
 const cartSidebar = document.getElementById("cartSidebar");
 const cartOverlay = document.getElementById("cartOverlay");
 const closeCart = document.getElementById("closeCart");
 const cartIcon = document.querySelector(".cart-icon");
-
 const shippingText = document.querySelector(".shipping-text");
 const progressFill = document.querySelector(".progress-fill");
 
