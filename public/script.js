@@ -192,23 +192,24 @@ document.addEventListener("keydown", e => {
 });
 
 // ================================
-// CHECKOUT (FIXED SAFE VERSION)
-// ================================
 async function checkout() {
 
-  if (!cart.length) return alert("Cart is empty");
+  if (cart.length === 0) {
+    alert("Your basket is empty");
+    return;
+  }
 
   try {
-    const res = await fetch(
-      "https://ar-production-006f.up.railway.app/create-checkout-session",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cart)
-      }
-    );
 
-    const data = await res.json();
+    const response = await fetch("/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cart)
+    });
+
+    const data = await response.json();
 
     if (data.url) {
       localStorage.removeItem("cart");
@@ -217,12 +218,11 @@ async function checkout() {
       alert(data.error || "Checkout failed");
     }
 
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     alert("Server error");
   }
 }
-
 // ================================
 // INIT
 // ================================

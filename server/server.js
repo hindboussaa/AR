@@ -1,63 +1,74 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-console.log("SERVER STARTED"); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ ONLY ONE CORS (FIXED)
+console.log("SERVER STARTED");
+console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
+
+// ✅ CLEAN CORS (ONLY ONCE)
 app.use(cors({
   origin: "*",
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"]
 }));
 
 app.use(express.json());
+
+// ======================
+// STATIC FRONTEND
+// ======================
 app.use(express.static(path.join(__dirname, "public")));
 
-console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
-
-// ================================
-// STRIPE CHECKOUT
-// ================================
+// ======================
+// STRIPE ROUTE
+// ======================
 app.post("/create-checkout-session", async (req, res) => {
-
   try {
     const cart = req.body;
 
+    console.log("CART RECEIVED:", cart);
+
     if (!Array.isArray(cart) || cart.length === 0) {
-      return res.status(400).json({ error: "Invalid cart" });
+      return res.status(400).json({ error: "Cart empty" });
     }
 
     const line_items = cart.map(item => ({
       price_data: {
         currency: "gbp",
-        product_data: { name: item.name },
-        unit_amount: Math.round(item.price * 100),
+        product_data: {
+          name: item.name
+        },
+        unit_amount: Math.round(item.price * 100)
       },
       quantity: item.quantity || 1
     }));
 
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
       payment_method_types: ["card"],
+      mode: "payment",
       line_items,
-      success_url: "https://ar-production-006f.up.railway.app/success.html",
-      cancel_url: "https://ar-production-006f.up.railway.app/cancel.html",
+
+      success_url: "https://www.arsishop.co.uk/success.html",
+      cancel_url: "https://www.arsishop.co.uk/cancel.html"
     });
 
     res.json({ url: session.url });
 
   } catch (err) {
-    console.error(err);
+    console.error("STRIPE ERROR:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// ================================
+// ======================
+// START SERVER
+// ======================
 app.listen(PORT, "0.0.0.0", () => {
-  console.log("Server running on", PORT);
+  console.log("SERVER RUNNING ON PORT:", PORT);
 });
