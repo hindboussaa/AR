@@ -54,8 +54,8 @@ app.post("/create-checkout-session", async (req, res) => {
       mode: "payment",
       line_items,
 
-      success_url: "https://www.arsishop.co.uk/success.html",
-      cancel_url: "https://www.arsishop.co.uk/cancel.html"
+   success_url: "http://localhost:3000/success.html",
+cancel_url: "http://localhost:3000/cancel.html"
     });
 
     res.json({ url: session.url });
