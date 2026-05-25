@@ -1,16 +1,19 @@
 require("dotenv").config();
+const connectDB = require("./config/db");
 
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+console.log("MONGO_URI:", process.env.MONGO_URI);
 console.log("SERVER STARTED");
 console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
-
+connectDB();
 // ✅ CLEAN CORS (ONLY ONCE)
 app.use(cors({
   origin: "*",
