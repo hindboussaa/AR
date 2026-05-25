@@ -303,7 +303,7 @@
       </button>
 
       <button class="orders-btn"
-        onclick="window.location.href='orders.html'">
+        onclick="window.location.href='/orders.html'">
         View Orders
       </button>
 
@@ -314,6 +314,27 @@
     </div>
 
   </div>
+  <script>
+
+  const cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+  if(cart.length > 0){
+
+    const existingOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
+
+    existingOrders.push(...cart);
+
+    localStorage.setItem(
+      "orders",
+      JSON.stringify(existingOrders)
+    );
+
+    localStorage.removeItem("cart");
+  }
+
+</script>
 
 </body>
 </html>

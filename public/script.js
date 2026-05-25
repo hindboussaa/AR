@@ -209,12 +209,13 @@ async function checkout() {
 
     const data = await response.json();
 
-    if (data.url) {
-      localStorage.removeItem("cart");
-      window.location.href = data.url;
-    } else {
+   if (data.url) {
+  window.location.href = data.url;
+}else {
       alert(data.error || "Checkout failed");
     }
+
+
 
   } catch (error) {
     console.log(error);
