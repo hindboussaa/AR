@@ -511,71 +511,49 @@ grid-template-columns:repeat(3,1fr);
 gap:35px;
 }
 
-.product-card{
-overflow:hidden;
 
-background:white;
-border-radius:var(--radius-card);
 
-transition:0.35s ease;
+
+.product-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,.05);
 }
 
-.product-card:hover{
-transform:translate3d(0,-8px,0);
-box-shadow:var(--shadow-hover);
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.12);
 }
 
-.product-card img{
-height:420px;
-object-fit:cover;
+.product-card h3 {
+  font-size: 1.4rem;
+  margin: 15px 20px 10px;
 }
 
-.product-info{
-padding:28px;
-text-align:center;
+.product-card p {
+  margin: 0 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
-.product-info h3{
-font-family:'Playfair Display',serif;
-font-size:30px;
-
-margin-bottom:10px;
+.product-card button {
+  width: calc(100% - 40px);
+  margin: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 999px;
+  background: #111;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.product-info p{
-color:#777;
-margin-bottom:18px;
-}
-
-.product-bottom{
-display:flex;
-flex-direction:column;
-gap:18px;
-
-margin-top:20px;
-}
-
-.product-bottom span{
-font-size:22px;
-font-weight:600;
-}
-
-.product-info button{
-width:100%;
-padding:15px;
-
-border-radius:var(--radius-full);
-
-background:var(--dark);
-color:white;
-
-font-size:12px;
-letter-spacing:1px;
-text-transform:uppercase;
-}
-
-.product-info button:hover{
-background:var(--gold);
+.product-card button:hover {
+  background: #c9a86a;
 }
 
 /* =========================================
@@ -917,6 +895,38 @@ font-size:16px;
 color:#666;
 }
 
+
+
+.product-card{
+  background:#fff;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(0,0,0,.05);
+  transition:.3s;
+  display:flex;
+  flex-direction:column;
+}
+
+.product-card img{
+  height:320px;
+  object-fit:cover;
+}
+
+.product-card h3{
+  margin:20px 20px 10px;
+  min-height:52px;
+}
+
+.product-card p{
+  margin:0 20px;
+}
+
+.product-card button{
+  margin:20px;
+  margin-top:auto;
+  padding:14px;
+  border-radius:999px;
+}
 /* ========================= */
 /* QUANTITY */
 /* ========================= */
@@ -1193,6 +1203,57 @@ font-size:13px;
 color:#555;
 line-height:1.5;
 }
+
+
+
+
+.quantity-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+}
+
+.quantity-controls button{
+  width:34px;
+  height:34px;
+  border:none;
+  border-radius:50%;
+  background:#f4f4f4;
+  color:#111;
+  font-size:18px;
+  font-weight:600;
+  transition:0.3s ease;
+}
+
+.quantity-controls button:hover{
+  background:#111;
+  color:#fff;
+}
+
+.quantity-controls span{
+  min-width:25px;
+  text-align:center;
+  font-size:15px;
+  font-weight:600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ========================= */
 /* ANIMATION */

@@ -100,22 +100,47 @@ function updateCart() {
     total += item.price * item.quantity;
     count += item.quantity;
 
-    cartItems.innerHTML += `
-      <div class="cart-item">
-        <img src="${item.img}">
-        <div>
-          <h4>${item.name}</h4>
-          <p>£${item.price}</p>
+    
 
-          <div>
-            <button onclick="decreaseQty(${item.id})">-</button>
-            <span>${item.quantity}</span>
-            <button onclick="increaseQty(${item.id})">+</button>
-          </div>
-        </div>
-        <button onclick="removeItem(${item.id})">X</button>
-      </div>
-    `;
+
+    cartItems.innerHTML += `
+<div class="cart-item">
+
+  <img src="${item.img}" alt="${item.name}">
+
+  <div class="cart-item-info">
+
+    <div class="cart-top">
+      <h4>${item.name}</h4>
+
+      <button class="remove-btn"
+        onclick="removeItem(${item.id})">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    </div>
+
+    <p class="cart-price">
+      £${item.price.toFixed(2)}
+    </p>
+
+    <div class="quantity-controls">
+
+      <button onclick="decreaseQty(${item.id})">
+        −
+      </button>
+
+      <span>${item.quantity}</span>
+
+      <button onclick="increaseQty(${item.id})">
+        +
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+`;
   });
 
   cartTotal.innerText = `£${total.toFixed(2)}`;
