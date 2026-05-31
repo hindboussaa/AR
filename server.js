@@ -54,6 +54,79 @@ app.post("/create-checkout-session", async (req, res) => {
       });
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    app.post("/create-checkout-session", async (req, res) => {
+  try {
+
+    const cart = req.body;
+
+    console.log("CART RECEIVED:", cart);
+
+    // 1. Validate cart
+    if (!Array.isArray(cart) || cart.length === 0) {
+      return res.status(400).json({ error: "Cart empty" });
+    }
+
+    // 2. CREATE ORDER IN MONGODB  👈 HERE IT GOES
+    const order = await Order.create({
+      items: cart,
+      total: cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      ),
+      status: "pending"
+    });
+
+    // 3. Build Stripe line items
+    const line_items = cart.map(item => ({
+      price_data: {
+        currency: "gbp",
+        product_data: {
+          name: item.name
+        },
+        unit_amount: Math.round(item.price * 100)
+      },
+      quantity: item.quantity || 1
+    }));
+
+    // 4. Create Stripe session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items,
+
+      metadata: {
+        orderId: order._id.toString()
+      },
+
+      success_url: "https://www.arsishop.co.uk/success.html",
+      cancel_url: "https://www.arsishop.co.uk/cancel.html"
+    });
+
+    // 5. Return Stripe URL
+    res.json({ url: session.url });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
     // ======================
     // STRIPE LINE ITEMS
     // ======================
@@ -71,19 +144,10 @@ app.post("/create-checkout-session", async (req, res) => {
     // ======================
     // SAVE ORDER TO MONGODB
     // ======================
-    const newOrder = await Order.create({
-      items: cart,
+    
 
-      total: cart.reduce(
-        (sum, item) =>
-          sum + (item.price * item.quantity),
-        0
-      ),
 
-      createdAt: new Date()
-    });
 
-    console.log("ORDER SAVED:", newOrder);
 
     // ======================
     // CREATE STRIPE SESSION
