@@ -11,13 +11,70 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ======================
-// CONNECT DATABASE
+// CONNECT DB
 // ======================
-console.log("MONGO_URI:", process.env.MONGO_URI);
-console.log("SERVER STARTED");
-console.log("STRIPE KEY EXISTS:", !!process.env.STRIPE_SECRET_KEY);
-
 connectDB();
+
+// ======================
+// PRODUCT LIST (MOVE TO DB LATER)
+// ======================
+const products = [
+  { id: 1, name: "Yara Pink 50ml", price: 15.99 },
+  { id: 2, name: "Choco Musk Pistachio", price: 6.99 },
+  { id: 3, name: "Dirham Oud 100ml", price: 19.99 },
+  { id: 4, name: "Qaed Al Fursan Unlimited", price: 21.99 },
+  { id: 5, name: "Mousuf Ramadi", price: 19.99 },
+  { id: 11, name: "Mayar by Lattafa", price: 26.99 }
+];
+
+// ======================
+// WEBHOOK (MUST BE BEFORE JSON MIDDLEWARE)
+// ======================
+app.post(
+  "/stripe-webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const sig = req.headers["stripe-signature"];
+
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.log("Webhook Error:", err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // PAYMENT SUCCESS
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+
+      const orderId = session.metadata?.orderId;
+
+      if (!orderId) {
+        return res.status(400).send("Missing orderId");
+      }
+
+      await Order.findByIdAndUpdate(
+        orderId,
+        {
+          status: "paid",
+          stripeSessionId: session.id,
+          stripePaymentIntentId: session.payment_intent
+        },
+        { new: true }
+      );
+
+      console.log("ORDER MARKED PAID:", orderId);
+    }
+
+    res.json({ received: true });
+  }
+);
 
 // ======================
 // MIDDLEWARE
@@ -29,80 +86,74 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
-// ======================
-// STATIC FRONTEND
-// ======================
 app.use(express.static(path.join(__dirname, "public")));
 
 // ======================
-// STRIPE CHECKOUT ROUTE
+// HEALTH CHECK
+// ======================
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
+
+// ======================
+// ORDERS (ADMIN ONLY)
+// ======================
+app.get("/orders", async (req, res) => {
+  const key = req.headers["x-admin-key"];
+
+  if (!key || key !== process.env.ADMIN_KEY) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ======================
+// CHECKOUT (SECURE)
 // ======================
 app.post("/create-checkout-session", async (req, res) => {
   try {
-
     const cart = req.body;
 
-    console.log("CART RECEIVED:", cart);
-
-    // ======================
-    // VALIDATE CART
-    // ======================
-    if (!Array.isArray(cart) || cart.length === 0) {
-      return res.status(400).json({
-        error: "Cart empty"
-      });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    app.post("/create-checkout-session", async (req, res) => {
-  try {
-
-    const cart = req.body;
-
-    console.log("CART RECEIVED:", cart);
-
-    // 1. Validate cart
     if (!Array.isArray(cart) || cart.length === 0) {
       return res.status(400).json({ error: "Cart empty" });
     }
 
-    // 2. CREATE ORDER IN MONGODB  👈 HERE IT GOES
+    let total = 0;
+
+    const line_items = cart.map(item => {
+      const product = products.find(p => p.id === item.id);
+
+      if (!product) {
+        throw new Error("Invalid product ID: " + item.id);
+      }
+
+      const itemTotal = product.price * item.quantity;
+      total += itemTotal;
+
+      return {
+        price_data: {
+          currency: "gbp",
+          product_data: {
+            name: product.name
+          },
+          unit_amount: Math.round(product.price * 100)
+        },
+        quantity: item.quantity
+      };
+    });
+
     const order = await Order.create({
       items: cart,
-      total: cart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      ),
+      total,
       status: "pending"
     });
 
-    // 3. Build Stripe line items
-    const line_items = cart.map(item => ({
-      price_data: {
-        currency: "gbp",
-        product_data: {
-          name: item.name
-        },
-        unit_amount: Math.round(item.price * 100)
-      },
-      quantity: item.quantity || 1
-    }));
-
-    // 4. Create Stripe session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -116,67 +167,11 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: "https://www.arsishop.co.uk/cancel.html"
     });
 
-    // 5. Return Stripe URL
     res.json({ url: session.url });
 
   } catch (err) {
-    console.error(err);
+    console.error("Checkout error:", err.message);
     res.status(500).json({ error: err.message });
-  }
-});
-
-
-
-    // ======================
-    // STRIPE LINE ITEMS
-    // ======================
-    const line_items = cart.map(item => ({
-      price_data: {
-        currency: "gbp",
-        product_data: {
-          name: item.name
-        },
-        unit_amount: Math.round(item.price * 100)
-      },
-      quantity: item.quantity || 1
-    }));
-
-    // ======================
-    // SAVE ORDER TO MONGODB
-    // ======================
-    
-
-
-
-
-    // ======================
-    // CREATE STRIPE SESSION
-    // ======================
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-
-      mode: "payment",
-
-      line_items,
-
-    success_url: "https://www.arsishop.co.uk/success.html",
-cancel_url: "https://www.arsishop.co.uk/cancel.html"
-    });
-
-    // ======================
-    // RETURN STRIPE URL
-    // ======================
-    res.json({
-      url: session.url
-    });
-
-  } catch (err) {
-
-    console.error("STRIPE ERROR:", err);
-
-    res.status(500).json({
-      error: err.message
-    });
   }
 });
 
