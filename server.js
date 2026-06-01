@@ -1,11 +1,11 @@
 require("dotenv").config();
-const connectDB = require("./config/db");
-
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const mongoose = require("mongoose");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+const connectDB = require("./config/db");
 const Order = require("./models/Order");
 const Product = require("./models/Product");
 
@@ -13,50 +13,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ======================
-// DB
+// DB CONNECT
 // ======================
 connectDB();
-
-// ======================
-// WEBHOOK (MUST BE FIRST)
-// ======================
-app.post(
-  "/stripe-webhook",
-  express.raw({ type: "application/json" }),
-  async (req, res) => {
-    const sig = req.headers["stripe-signature"];
-
-    let event;
-
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-    } catch (err) {
-      return res.status(400).send(err.message);
-    }
-
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
-
-      const orderId = session.metadata?.orderId;
-
-      if (orderId) {
-        await Order.findByIdAndUpdate(orderId, {
-          status: "paid",
-          stripeSessionId: session.id,
-          stripePaymentIntentId: session.payment_intent
-        });
-
-        console.log("ORDER PAID:", orderId);
-      }
-    }
-
-    res.json({ received: true });
-  }
-);
 
 // ======================
 // MIDDLEWARE
@@ -71,28 +30,32 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // ======================
-// HEALTH
+// HEALTH CHECK
 // ======================
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
 // ======================
-// PRODUCTS (GET FRONTEND)
+// PRODUCTS (FRONTEND)
 // ======================
 app.get("/products", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ======================
-// SEED PRODUCTS (ONLY ONCE)
+// SEED PRODUCTS
 // ======================
 app.get("/seed-products", async (req, res) => {
   try {
     await Product.deleteMany();
 
-    await Product.create([
+    await Product.insertMany([
       {
         name: "Yara Pink 50ml",
         price: 15.99,
@@ -119,7 +82,7 @@ app.get("/seed-products", async (req, res) => {
       }
     ]);
 
-    res.send("Seeded successfully");
+    res.send("Products seeded successfully");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -129,21 +92,71 @@ app.get("/seed-products", async (req, res) => {
 // ORDERS (ADMIN)
 // ======================
 app.get("/orders", async (req, res) => {
-  const key = req.headers["x-admin-key"];
+  try {
+    const key = req.headers["x-admin-key"];
 
-  if (key !== process.env.ADMIN_KEY) {
-    return res.status(403).json({ error: "Unauthorized" });
+    if (key !== process.env.ADMIN_KEY) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.json(orders);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-
-  const orders = await Order.find().sort({ createdAt: -1 });
-  res.json(orders);
 });
 
 // ======================
-// CHECKOUT (SECURE)
+// STRIPE WEBHOOK
+// ======================
+app.post(
+  "/stripe-webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+
+    const sig = req.headers["stripe-signature"];
+
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === "checkout.session.completed") {
+
+      const session = event.data.object;
+
+      const orderId = session.metadata?.orderId;
+
+      if (orderId) {
+        await Order.findByIdAndUpdate(orderId, {
+          status: "paid",
+          stripeSessionId: session.id,
+          stripePaymentIntentId: session.payment_intent
+        });
+
+        console.log("ORDER PAID:", orderId);
+      }
+    }
+
+    res.json({ received: true });
+  }
+);
+
+// ======================
+// CHECKOUT (FIXED + SAFE)
 // ======================
 app.post("/create-checkout-session", async (req, res) => {
+
   try {
+
     const cart = req.body;
 
     if (!Array.isArray(cart) || cart.length === 0) {
@@ -152,42 +165,47 @@ app.post("/create-checkout-session", async (req, res) => {
 
     let total = 0;
 
-    const line_items = await Promise.all(
-      cart.map(async (item) => {
-        const product = await Product.findById(item.id);
+    const line_items = [];
+    const orderItems = [];
 
-        if (!product) throw new Error("Invalid product");
+    for (const item of cart) {
 
-        total += product.price * item.quantity;
+      // FIX: prevents "Cast to ObjectId failed"
+      if (!mongoose.Types.ObjectId.isValid(item.id)) {
+        return res.status(400).json({
+          error: `Invalid product ID: ${item.id}`
+        });
+      }
 
-        return {
-          price_data: {
-            currency: "gbp",
-            product_data: {
-              name: product.name
-            },
-            unit_amount: Math.round(product.price * 100)
+      const product = await Product.findById(item.id);
+
+      if (!product) {
+        return res.status(400).json({
+          error: "Product not found"
+        });
+      }
+
+      total += product.price * item.quantity;
+
+      line_items.push({
+        price_data: {
+          currency: "gbp",
+          product_data: {
+            name: product.name
           },
-          quantity: item.quantity
-        };
-      })
-    );
+          unit_amount: Math.round(product.price * 100)
+        },
+        quantity: item.quantity
+      });
 
-    const orderItems = await Promise.all(
-      cart.map(async (item) => {
-        const product = await Product.findById(item.id);
-
-        if (!product) throw new Error("Invalid product");
-
-        return {
-          product: product._id,
-          name: product.name,
-          price: product.price,
-          quantity: item.quantity,
-          img: product.img
-        };
-      })
-    );
+      orderItems.push({
+        product: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: item.quantity,
+        img: product.img
+      });
+    }
 
     const order = await Order.create({
       items: orderItems,
@@ -211,7 +229,7 @@ app.post("/create-checkout-session", async (req, res) => {
     res.json({ url: session.url });
 
   } catch (err) {
-    console.error(err);
+    console.error("Checkout error:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
