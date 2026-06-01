@@ -37,7 +37,7 @@ app.get("/ping", (req, res) => {
 });
 
 // ======================
-// PRODUCTS (FRONTEND)
+// PRODUCTS
 // ======================
 app.get("/products", async (req, res) => {
   try {
@@ -89,7 +89,7 @@ app.get("/seed-products", async (req, res) => {
 });
 
 // ======================
-// ORDERS (ADMIN)
+// ORDERS (ADMIN ONLY)
 // ======================
 app.get("/orders", async (req, res) => {
   try {
@@ -132,7 +132,6 @@ app.post(
     if (event.type === "checkout.session.completed") {
 
       const session = event.data.object;
-
       const orderId = session.metadata?.orderId;
 
       if (orderId) {
@@ -151,7 +150,7 @@ app.post(
 );
 
 // ======================
-// CHECKOUT (FIXED + SAFE)
+// CHECKOUT (FINAL FIXED VERSION)
 // ======================
 app.post("/create-checkout-session", async (req, res) => {
 
@@ -164,13 +163,11 @@ app.post("/create-checkout-session", async (req, res) => {
     }
 
     let total = 0;
-
     const line_items = [];
     const orderItems = [];
 
     for (const item of cart) {
 
-      // FIX: prevents "Cast to ObjectId failed"
       if (!mongoose.Types.ObjectId.isValid(item.id)) {
         return res.status(400).json({
           error: `Invalid product ID: ${item.id}`
