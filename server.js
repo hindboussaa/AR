@@ -5,31 +5,20 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const Order = require("./models/Order");
-const Product = require("./models/Product"); 
+const Product = require("./models/Product");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ======================
-// CONNECT DB
+// DB
 // ======================
 connectDB();
 
 // ======================
-// PRODUCT LIST (MOVE TO DB LATER)
-// ======================
-const products = [
-  { id: 1, name: "Yara Pink 50ml", price: 15.99 },
-  { id: 2, name: "Choco Musk Pistachio", price: 6.99 },
-  { id: 3, name: "Dirham Oud 100ml", price: 19.99 },
-  { id: 4, name: "Qaed Al Fursan Unlimited", price: 21.99 },
-  { id: 5, name: "Mousuf Ramadi", price: 19.99 },
-  { id: 11, name: "Mayar by Lattafa", price: 26.99 }
-];
-
-// ======================
-// WEBHOOK (MUST BE BEFORE JSON MIDDLEWARE)
+// WEBHOOK (MUST BE FIRST)
 // ======================
 app.post(
   "/stripe-webhook",
@@ -46,31 +35,23 @@ app.post(
         process.env.STRIPE_WEBHOOK_SECRET
       );
     } catch (err) {
-      console.log("Webhook Error:", err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+      return res.status(400).send(err.message);
     }
 
-    // PAYMENT SUCCESS
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
 
       const orderId = session.metadata?.orderId;
 
-      if (!orderId) {
-        return res.status(400).send("Missing orderId");
-      }
-
-      await Order.findByIdAndUpdate(
-        orderId,
-        {
+      if (orderId) {
+        await Order.findByIdAndUpdate(orderId, {
           status: "paid",
           stripeSessionId: session.id,
           stripePaymentIntentId: session.payment_intent
-        },
-        { new: true }
-      );
+        });
 
-      console.log("ORDER MARKED PAID:", orderId);
+        console.log("ORDER PAID:", orderId);
+      }
     }
 
     res.json({ received: true });
@@ -90,28 +71,72 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // ======================
-// HEALTH CHECK
+// HEALTH
 // ======================
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
 // ======================
-// ORDERS (ADMIN ONLY)
+// PRODUCTS (GET FRONTEND)
+// ======================
+app.get("/products", async (req, res) => {
+  const products = await Product.find();
+  res.json(products);
+});
+
+// ======================
+// SEED PRODUCTS (ONLY ONCE)
+// ======================
+app.get("/seed-products", async (req, res) => {
+  try {
+    await Product.deleteMany();
+
+    await Product.create([
+      {
+        name: "Yara Pink 50ml",
+        price: 15.99,
+        img: "images/yara.png",
+        stock: 10
+      },
+      {
+        name: "Choco Musk Pistachio",
+        price: 6.99,
+        img: "images/choco.png",
+        stock: 20
+      },
+      {
+        name: "Dirham Oud 100ml",
+        price: 19.99,
+        img: "images/dirham.png",
+        stock: 15
+      },
+      {
+        name: "Qaed Al Fursan",
+        price: 21.99,
+        img: "images/forsan.png",
+        stock: 12
+      }
+    ]);
+
+    res.send("Seeded successfully");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ======================
+// ORDERS (ADMIN)
 // ======================
 app.get("/orders", async (req, res) => {
   const key = req.headers["x-admin-key"];
 
-  if (!key || key !== process.env.ADMIN_KEY) {
+  if (key !== process.env.ADMIN_KEY) {
     return res.status(403).json({ error: "Unauthorized" });
   }
 
-  try {
-    const orders = await Order.find().sort({ createdAt: -1 });
-    res.json(orders);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const orders = await Order.find().sort({ createdAt: -1 });
+  res.json(orders);
 });
 
 // ======================
@@ -127,60 +152,48 @@ app.post("/create-checkout-session", async (req, res) => {
 
     let total = 0;
 
-    const line_items = cart.map(item => {
-      const product = products.find(p => p.id === item.id);
+    const line_items = await Promise.all(
+      cart.map(async (item) => {
+        const product = await Product.findById(item.id);
 
-      if (!product) {
-        throw new Error("Invalid product ID: " + item.id);
-      }
+        if (!product) throw new Error("Invalid product");
 
-      const itemTotal = product.price * item.quantity;
-      total += itemTotal;
+        total += product.price * item.quantity;
 
-      return {
-        price_data: {
-          currency: "gbp",
-          product_data: {
-            name: product.name
+        return {
+          price_data: {
+            currency: "gbp",
+            product_data: {
+              name: product.name
+            },
+            unit_amount: Math.round(product.price * 100)
           },
-          unit_amount: Math.round(product.price * 100)
-        },
-        quantity: item.quantity
-      };
-    });
-
-   
-    
-
-
-
+          quantity: item.quantity
+        };
+      })
+    );
 
     const orderItems = await Promise.all(
-  cart.map(async (item) => {
-    const product = await Product.findById(item.id);
+      cart.map(async (item) => {
+        const product = await Product.findById(item.id);
 
-    if (!product) {
-      throw new Error("Invalid product: " + item.id);
-    }
+        if (!product) throw new Error("Invalid product");
 
-    return {
-      product: product._id,
-      name: product.name,
-      price: product.price,
-      quantity: item.quantity,
-      img: product.img
-    };
-  })
-);
+        return {
+          product: product._id,
+          name: product.name,
+          price: product.price,
+          quantity: item.quantity,
+          img: product.img
+        };
+      })
+    );
 
-
-
-const order = await Order.create({
-  items: orderItems,
-  total,
-  status: "pending"
-});
-
+    const order = await Order.create({
+      items: orderItems,
+      total,
+      status: "pending"
+    });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -198,7 +211,7 @@ const order = await Order.create({
     res.json({ url: session.url });
 
   } catch (err) {
-    console.error("Checkout error:", err.message);
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
