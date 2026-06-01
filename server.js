@@ -6,6 +6,7 @@ const cors = require("cors");
 const path = require("path");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Order = require("./models/Order");
+const Product = require("./models/Product"); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
