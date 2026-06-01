@@ -148,11 +148,38 @@ app.post("/create-checkout-session", async (req, res) => {
       };
     });
 
-    const order = await Order.create({
-      items: cart,
-      total,
-      status: "pending"
-    });
+   
+    
+
+
+
+
+    const orderItems = await Promise.all(
+  cart.map(async (item) => {
+    const product = await Product.findById(item.id);
+
+    if (!product) {
+      throw new Error("Invalid product: " + item.id);
+    }
+
+    return {
+      product: product._id,
+      name: product.name,
+      price: product.price,
+      quantity: item.quantity,
+      img: product.img
+    };
+  })
+);
+
+
+
+const order = await Order.create({
+  items: orderItems,
+  total,
+  status: "pending"
+});
+
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
